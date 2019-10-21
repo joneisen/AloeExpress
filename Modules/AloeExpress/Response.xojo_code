@@ -31,7 +31,7 @@ Protected Class Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub CookieSet(Name As String, Value As String, Expiration As Date = Nil, Domain As String = "", Path As String = "/", Secure As Boolean = False, HttpOnly As Boolean = False)
+		Sub CookieSet(Name As String, Value As String, Expiration As DateTime = Nil, Domain As String = "", Path As String = "/", Secure As Boolean = False, HttpOnly As Boolean = False)
 		  // Adds a cookie to the dictionary.
 		  
 		  
