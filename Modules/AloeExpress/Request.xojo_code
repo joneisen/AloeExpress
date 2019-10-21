@@ -21,7 +21,7 @@ Inherits SSLSocket
 		  
 		  // Update the LastConnect timestamp.
 		  // This is used to determine if a keep-alive or WebSocket connection has timed out.
-		  LastConnect = New Date
+		  LastConnect = DateTime.Now
 		  
 		  // If this socket is servicing an active Websocket...
 		  If WSStatus = "Active" Then
@@ -59,7 +59,7 @@ Inherits SSLSocket
 		  End If
 		  
 		  // Get the length of the content that has been received.
-		  Dim ContentReceivedLength As Integer = Lookahead.Len
+		  Dim ContentReceivedLength As Integer = Lookahead.Length
 		  
 		  // If the content that has actually been uploaded is too large...
 		  // This prevents a client from spoofing of the Content-Length header
@@ -83,7 +83,7 @@ Inherits SSLSocket
 		    // Hand the request off to a RequestThread instance for processing.
 		    RequestThread = New AloeExpress.RequestThread
 		    RequestThread.RequestWR = New WeakRef( Self )
-		    RequestThread.Run
+		    RequestThread.Start
 		    Return
 		    
 		  End If
@@ -1310,7 +1310,7 @@ Inherits SSLSocket
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		LastConnect As Date
+		LastConnect As DateTime
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
