@@ -515,7 +515,7 @@ Inherits SSLSocket
 		  
 		  
 		  // If the requested resource is a directory...
-		  If FI.Directory Then
+		  If FI.IsFolder Then
 		    
 		    // Loop over the index filenames to see if any exist...
 		    For Each IndexFilename As String In IndexFilenames
@@ -537,7 +537,7 @@ Inherits SSLSocket
 		  
 		  
 		  // If the folder item exists and it is not a directory...
-		  If FI.Exists and FI.Directory = False Then
+		  If FI.Exists And FI.IsFolder = False Then
 		    
 		    // If we're using ETags...
 		    If UseETags Then
@@ -574,7 +574,7 @@ Inherits SSLSocket
 		    Response.Content = Response.Content.DefineEncoding(Encodings.UTF8)
 		    
 		    // Get the file's extension.
-		    Dim Extension As String = NthField(FI.Name, ".", CountFields(FI.Name, "."))
+		    Dim Extension As String = FI.Name.NthField( ".", FI.Name.CountFields( "."))
 		    
 		    // Map the file extension to a mime type, and use that as the content type.
 		    Response.Headers.Value("Content-Type") = MimeTypeGet(Extension)
