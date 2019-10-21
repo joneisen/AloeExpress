@@ -779,7 +779,7 @@ Inherits SSLSocket
 		  Dim RequestParts() As String = Lookahead.Split(EndOfLine.Windows + EndOfLine.Windows)
 		  
 		  // If the request is valid...
-		  If RequestParts.Ubound > -1 Then
+		  If RequestParts.LastRowIndex > -1 Then
 		    
 		    // Get the headers as a string.
 		    HeadersRaw = RequestParts(0)
