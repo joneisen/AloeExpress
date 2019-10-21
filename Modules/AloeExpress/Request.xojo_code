@@ -427,12 +427,12 @@ Inherits SSLSocket
 		  Headers = New Dictionary
 		  
 		  // If no additional headers are available...
-		  If HeadersRawArray.Ubound < 1 Then
+		  If HeadersRawArray.LastRowIndex < 1 Then
 		    Return
 		  End If
 		  
 		  // Loop over the other header array elements to create the request headers dictionary.
-		  For i As Integer = 1 To HeadersRawArray.Ubound
+		  For i As Integer = 1 To HeadersRawArray.LastRowIndex
 		    
 		    Dim ThisHeader As String = HeadersRawArray(i)
 		    Dim Key As String = ThisHeader.NthField(": ", 1)
