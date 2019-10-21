@@ -290,8 +290,8 @@ Inherits SSLSocket
 		  
 		  HTML = HTML + "<p>Path Components: " + EndOfLine.Windows
 		  HTML = HTML + "<ul>" + EndOfLine.Windows
-		  If PathComponents.Ubound > -1 Then
-		    For i As Integer = 0 to PathComponents.Ubound
+		  If PathComponents.LastRowIndex > -1 Then
+		    For i As Integer = 0 to PathComponents.LastRowIndex
 		      HTML = HTML + "<li>" + i.ToText + ". " + PathComponents(i) + "</li>"+ EndOfLine.Windows
 		    Next
 		  Else
@@ -306,7 +306,7 @@ Inherits SSLSocket
 		  
 		  HTML = HTML + "<p>Headers: " + EndOfLine.Windows
 		  HTML = HTML + "<ul>" + EndOfLine.Windows
-		  If Headers.Count > 0 Then
+		  If Headers.KeyCount > 0 Then
 		    For Each Key As Variant in Headers.Keys
 		      HTML = HTML + "<li>" + Key + "=" + Headers.Value(Key) + "</li>"+ EndOfLine.Windows
 		    Next
@@ -318,7 +318,7 @@ Inherits SSLSocket
 		  
 		  HTML = HTML + "<p>Cookies: " + EndOfLine.Windows
 		  HTML = HTML + "<ul>" + EndOfLine.Windows
-		  If Cookies.Count > 0 Then
+		  If Cookies.KeyCount > 0 Then
 		    For Each Key As Variant in Cookies.Keys
 		      HTML = HTML + "<li>" + Key + "=" + Cookies.Value(Key) + "</li>"+ EndOfLine.Windows
 		    Next
@@ -330,7 +330,7 @@ Inherits SSLSocket
 		  
 		  HTML = HTML + "<p>GET Params: " + EndOfLine.Windows
 		  HTML = HTML + "<ul>" + EndOfLine.Windows
-		  If GET.Count > 0 Then
+		  If GET.KeyCount > 0 Then
 		    For Each Key As Variant in GET.Keys
 		      HTML = HTML + "<li>" + Key + "=" + GET.Value(Key) + "</li>"+ EndOfLine.Windows
 		    Next
@@ -342,7 +342,7 @@ Inherits SSLSocket
 		  
 		  HTML = HTML + "<p>POST Params: " + EndOfLine.Windows
 		  HTML = HTML + "<ul>" + EndOfLine.Windows
-		  If POST.Count > 0 Then
+		  If POST.KeyCount > 0 Then
 		    For Each Key As Variant in POST.Keys
 		      HTML = HTML + "<li>" + Key + "=" + POST.Value(Key) + "</li>"+ EndOfLine.Windows
 		    Next
