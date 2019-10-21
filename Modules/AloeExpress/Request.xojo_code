@@ -726,8 +726,8 @@ Inherits SSLSocket
 		  PathComponents = Path.Split("/")
 		  
 		  // Remove the first component, because it's a blank that appears before the first /.
-		  If PathComponents.Ubound > -1 Then
-		    PathComponents.Remove(0)
+		  If PathComponents.LastRowIndex > -1 Then
+		    PathComponents.RemoveRowAt(0)
 		  End If
 		  
 		End Sub
