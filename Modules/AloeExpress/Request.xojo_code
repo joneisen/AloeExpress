@@ -1009,7 +1009,7 @@ Inherits SSLSocket
 		  Dim POSTParams() As String = Body.Split("&")
 		  
 		  // Loop over the array to create the POST dictionary.
-		  For i As Integer = 0 To POSTParams.Ubound
+		  For i As Integer = 0 To POSTParams.LastRowIndex
 		    Dim ThisParam As String = POSTParams(i)
 		    Dim Key As String = ThisParam.NthField("=", 1)
 		    Dim Value As String = ThisParam.NthField("=", 2)
