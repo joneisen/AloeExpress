@@ -216,8 +216,8 @@ Inherits SSLSocket
 		  
 		  // Inherit properties from the server.
 		  Multithreading = Server.Multithreading
-		  Secure = Server.Secure
-		  ConnectionType = Server.ConnectionType
+		  SSLEnabled = Server.Secure
+		  SSLConnectionType = Server.ConnectionType
 		  CertificateFile = Server.CertificateFile
 		  CertificatePassword = Server.CertificatePassword
 		  MaxEntitySize = Server.MaxEntitySize
