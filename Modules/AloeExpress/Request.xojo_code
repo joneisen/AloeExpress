@@ -262,7 +262,7 @@ Inherits SSLSocket
 		  Dim CookiesRawArray() As String = CookiesRaw.Split("; ")
 		  
 		  // Loop over the cookies...
-		  For i As Integer = 0 To CookiesRawArray.Ubound
+		  For i As Integer = 0 To CookiesRawArray.LastRowIndex
 		    Dim ThisCookie As String = CookiesRawArray(i)
 		    Dim Key As String = AloeExpress.URLDecode(ThisCookie.NthField("=", 1))
 		    Dim Value As String = AloeExpress.URLDecode(ThisCookie.NthField("=", 2))
