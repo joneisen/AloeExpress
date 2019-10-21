@@ -211,7 +211,7 @@ Protected Class Response
 		  RH = "HTTP/" + HTTPVersion + " " + Status + EndOfLine.Windows
 		  
 		  // Specify the content length.
-		  Headers.Value("Content-Length") = Content.LenB.ToText
+		  Headers.Value("Content-Length") = Content.Bytes.ToText
 		  
 		  // Loop over the dictionary entries...
 		  For Each Key As Variant in Headers.Keys
