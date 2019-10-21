@@ -946,7 +946,7 @@ Inherits SSLSocket
 		  Dim AcceptEncodingParts() As String = AcceptEncoding.Split("gzip")
 		  
 		  // If gzip is accepted...
-		  If AcceptEncodingParts.Ubound > 0 Then
+		  If AcceptEncodingParts.LastRowIndex > 0 Then
 		    // By default, the response will be compressed.
 		    Response.Compress = True
 		  End If
