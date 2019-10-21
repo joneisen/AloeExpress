@@ -28,16 +28,16 @@ Protected Module AloeExpress
 		  Dim Content As String
 		  
 		  // Get the start position of the beginning token.
-		  Dim StartPosition As Integer = Source.InStr(Start, TokenBegin) 
+		  Dim StartPosition As Integer = Source.IndexOf(Start, TokenBegin) 
 		  
 		  // Get the position of the ending token.
-		  Dim StopPosition As Integer = Source.InStr(StartPosition, TokenEnd)
+		  Dim StopPosition As Integer = Source.IndexOf(StartPosition, TokenEnd)
 		  
 		  // If the template includes both the beginning and ending tokens...
 		  If ( (StartPosition > 0) and (StopPosition > 0) ) Then
 		    
 		    // Get the content between the tokens.
-		    Content = Mid(Source, StartPosition + TokenBegin.Len, StopPosition - StartPosition - TokenBegin.Len)
+		    Content = Source.Middle( StartPosition + TokenBegin.Length - 1, StopPosition - StartPosition - TokenBegin.Length )
 		    
 		  End If
 		  
