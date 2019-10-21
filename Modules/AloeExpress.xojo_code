@@ -913,30 +913,30 @@ Protected Module AloeExpress
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function RecordSetToJSONItem(Records As RecordSet, Close As Boolean=True) As JSONItem
+		Function RecordSetToJSONItem(Records As RowSet, Close As Boolean = True) As JSONItem
 		  // Converts a recordset to JSONItem.
 		  
 		  
 		  Dim RecordsJSON As New JSONItem
 		  
 		  // Loop over each record...
-		  While Not Records.EOF
+		  While Not Records.AfterLastRow
 		    
 		    Dim RecordJSON As New JSONItem
 		    
 		    // Loop over each column...
-		    For i As Integer = 0 To Records.FieldCount-1
+		    For i As Integer = 0 To Records.ColumnCount-1
 		      
 		      // Add a name / value pair to the JSON record.
-		      RecordJSON.Value( Records.IdxField(i+1).Name ) = Records.IdxField(i+1).StringValue
+		      RecordJSON.Value( Records.ColumnAt(i+1).Name ) = Records.ColumnAt(i+1).StringValue
 		      
 		    Next
 		    
 		    // Add the JSON record to the JSON records object.
-		    RecordsJSON.Append(RecordJSON)
+		    RecordsJSON.Add(RecordJSON)
 		    
 		    // Go to the next row.
-		    Records.MoveNext
+		    Records.MoveToNextRow
 		    
 		  Wend
 		  
