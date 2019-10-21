@@ -64,7 +64,7 @@ Protected Module AloeExpress
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function DateToRFC1123(TheDate As Date = Nil) As Text
+		Function DateToRFC1123(TheDate As DateTime = Nil) As Text
 		  // Returns a  in RFC 822 / 1123 format.
 		  // Example: Mon, 27 Nov 2017 13:27:26 GMT
 		  // Special thanks to Norman Palardy.
@@ -73,10 +73,12 @@ Protected Module AloeExpress
 		  Dim tmp As Text
 		  
 		  If TheDate = Nil Then
-		    TheDate = New Date
+		    TheDate = DateTime.Now
+		    //years, months, days, hours, minutes, seconds
+		    TheDate = TheDate.SubtractInterval( 0, 0, 0, 0, 0, TheDate.Timezone.SecondsFromGMT )
 		  End If
 		  
-		  TheDate.GMTOffset = 0
+		  //TheDate.GMTOffset = 0
 		  
 		  Select Case TheDate.DayOfWeek
 		  Case 1
