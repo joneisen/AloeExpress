@@ -119,7 +119,7 @@ Inherits SSLSocket
 		  End If
 		  
 		  // If this was a multipart form...
-		  If ContentType.Split("multipart/form-data").Ubound = 1 Then
+		  If ContentType.Split("multipart/form-data").LastRowIndex = 1 Then
 		    // Close the connection.
 		    Close
 		  End If
