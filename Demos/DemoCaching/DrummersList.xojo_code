@@ -80,7 +80,7 @@ Protected Class DrummersList
 		  RecordsGet
 		  
 		  // If we were unable to get records from the database...
-		  If Records = Nil or Records.RecordCount = 0 Then
+		  If Records = Nil or Records.RowCount = 0 Then
 		    Request.Response.Status = "500"
 		    Return
 		  End If
@@ -114,7 +114,7 @@ Protected Class DrummersList
 		  Dim PS As SQLitePreparedStatement = Database.Prepare(SQL)
 		  
 		  // Perform the query.
-		  Records = PS.SQLSelect
+		  Records = PS.SelectSQL
 		  
 		  
 		  
@@ -177,7 +177,7 @@ Protected Class DrummersList
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		Records As RecordSet
+		Records As RowSet
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
