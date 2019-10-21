@@ -11,7 +11,7 @@ Protected Module AloeExpress
 		    
 		    Dim ArgParts() As String = Argument.Split("=")
 		    Dim Name As String = ArgParts(0)
-		    Dim Value As String  = If(ArgParts.Ubound = 1,  ArgParts(1), "")
+		    Dim Value As String  = If(ArgParts.LastRowIndex = 1,  ArgParts(1), "")
 		    
 		    Arguments.Value(Name) = Value
 		    
