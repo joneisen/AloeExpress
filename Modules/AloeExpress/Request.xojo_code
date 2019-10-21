@@ -177,13 +177,13 @@ Inherits SSLSocket
 		  ContentType = Headers.Lookup("Content-Type", "")
 		  
 		  // If the content is form-url encoded...
-		  If ContentType.Split("application/x-www-form-urlencoded").Ubound = 1 Then
+		  If ContentType.Split("application/x-www-form-urlencoded").LastRowIndex = 1 Then
 		    URLEncodedFormHandle
 		    Return
 		  End If
 		  
 		  // If this is a multipart form...
-		  If ContentType.Split("multipart/form-data").Ubound = 1 Then
+		  If ContentType.Split("multipart/form-data").LastRowIndex = 1 Then
 		    MultipartFormHandle
 		    Return
 		  End If
