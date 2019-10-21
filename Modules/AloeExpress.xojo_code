@@ -1001,11 +1001,14 @@ Protected Module AloeExpress
 		  + "|| substr(hex(randomblob(2)), 2) " _
 		  + "|| '-' || hex(randomblob(6)) AS GUID"
 		  
-		  If db.Connect Then
-		    Dim GUID As String = db.SQLSelect(SQL_Instruction).Field("GUID")
+		  Try
+		    db.Connect
+		    Dim GUID As String = db.SelectSQL(SQL_Instruction).Column("GUID")
 		    db.Close
 		    Return  GUID
-		  End If
+		  Catch error As DatabaseException
+		    Print( "SQLite Error: " + error.Message )
+		  End Try
 		End Function
 	#tag EndMethod
 
