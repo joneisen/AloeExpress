@@ -45,7 +45,7 @@ Inherits ServerSocket
 		  MaximumSocketsConnected = 200
 		  MinimumSocketsAvailable = 50
 		  Secure = False
-		  ConnectionType = SSLSocket.TLSv12
+		  ConnectionType = SSLSocket.SSLConnectionTypes.TLSv12
 		  CertificateFile = GetFolderItem("").Parent.Child("certificates").Child("default-certificate.crt")
 		  CertificatePassword = ""
 		  KeepAlive = True
@@ -81,7 +81,7 @@ Inherits ServerSocket
 		    End If
 		    
 		    If Arguments.HasKey("--ConnectionType") Then 
-		      ConnectionType = Val(Arguments.Value("--ConnectionType"))
+		      ConnectionType = Arguments.Value("--ConnectionType")
 		    End If
 		    
 		    If Arguments.HasKey("--CertificateFile") Then 
@@ -128,7 +128,7 @@ Inherits ServerSocket
 		  + "• Sessions Sweep Interval: " + SessionsSweepIntervalSecs.ToText + " seconds" + EndOfLine _
 		  + "• SSL: " + If(Secure , "Enabled", "Disabled") + EndOfLine _
 		  + If(Secure , "• SSL Certificate Path: " + CertificateFile.NativePath + EndOfLine, "") _
-		  + If(Secure , "• SSL Connection Type: " + ConnectionType.ToText  + EndOfLine, "") _
+		  + If(Secure , "• SSL Connection Type: " + ConnectionType.ToString  + EndOfLine, "") _
 		  + "• WebSocket Timeout: " + WSTimeout.ToText + " seconds" + EndOfLine _
 		  + EndOfLine + EndOfLine
 		  
@@ -225,7 +225,7 @@ Inherits ServerSocket
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		ConnectionType As Integer
+		ConnectionType As SSLSocket.SSLConnectionTypes
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
