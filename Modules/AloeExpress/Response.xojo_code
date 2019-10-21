@@ -59,11 +59,9 @@ Protected Class Response
 		  // Adds a cookie to the dictionary.
 		  
 		  // Create the cookie's expiration date.
-		  Dim ExpirationDate As New Date
-		  ExpirationDate.Day = ExpirationDate.Day + ExpirationDays
-		  ExpirationDate.Hour = ExpirationDate.Hour + ExpirationHours
-		  ExpirationDate.Minute = ExpirationDate.Minute + ExpirationMinutes
-		  ExpirationDate.Second = ExpirationDate.Second + ExpirationSeconds
+		  Dim ExpirationDate As DateTime = DateTime.Now
+		  //years, months, days, hours, minutes, seconds
+		  ExpirationDate = ExpirationDate.AddInterval( 0, 0, ExpirationDate.Day + ExpirationDays, ExpirationDate.Hour + ExpirationHours, ExpirationDate.Minute + ExpirationMinutes, ExpirationDate.Second + ExpirationSeconds )
 		  
 		  
 		  // Create a dictionary for the cookie's settings.
