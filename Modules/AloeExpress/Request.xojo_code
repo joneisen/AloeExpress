@@ -378,7 +378,7 @@ Inherits SSLSocket
 		  Dim GETParams() As String = URLParams.Split( "&" )
 		  
 		  // Loop over the URL params to create the GET dictionary.
-		  For i As Integer = 0 To GETParams.Ubound
+		  For i As Integer = 0 To GETParams.LastRowIndex
 		    
 		    Dim ThisParam As String = GETParams( i )
 		    Dim Key As String = ThisParam.NthField( "=", 1 )
@@ -401,11 +401,11 @@ Inherits SSLSocket
 		        Temp = GET.Value( Key )
 		      Else
 		        // Add the first element to the temp array.
-		        Temp.Append( ExistingValue) 
+		        Temp.AddRow( ExistingValue) 
 		      End If
 		      
 		      // Append the new value to the temp array.
-		      Temp.Append( Value )
+		      Temp.AddRow( Value )
 		      
 		      // Update the GET dictionary.
 		      GET.Value( Key ) = Temp
