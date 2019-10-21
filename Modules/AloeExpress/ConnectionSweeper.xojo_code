@@ -47,13 +47,14 @@ Inherits Timer
 		    End If
 		    
 		    // Get the current date/time.
-		    Dim Now As New Date
+		    Dim Now As DateTime = DateTime.Now
 		    
 		    // Get the socket's last connection timestamp.
-		    Dim Timeout As Date = Socket.LastConnect
+		    Dim Timeout As DateTime = Socket.LastConnect
 		    
 		    // Determine when the connection will timeout due to inactivity.
-		    Timeout.Second = Timeout.Second + Server.KeepAliveTimeout
+		    //years, months, days, hours, minutes, seconds
+		    Timeout = Timeout.AddInterval(  0, 0, 0, 0, 0,  Server.KeepAliveTimeout )
 		    
 		    // If the socket's keep-alive has timed out...
 		    If Now > Timeout Then
