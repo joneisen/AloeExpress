@@ -171,7 +171,7 @@ Inherits Timer
 		  
 		  
 		  // Get the current date/time.
-		  Dim Now As New Date
+		  Dim Now As DateTime = DateTime.Now
 		  
 		  // This is an array of the session IDs that have expired.
 		  Dim ExpiredSessionIDs() As String
@@ -183,16 +183,16 @@ Inherits Timer
 		    Dim Session As Dictionary = Sessions.Value(Key)
 		    
 		    // Get the session's LastRequestTimestamp.
-		    Dim LastRequestTimestamp As Date = Session.Value("LastRequestTimestamp")
+		    Dim LastRequestTimestamp As DateTime = Session.Value("LastRequestTimestamp")
 		    
 		    // Determine the time that has elapsed since the last request.
-		    Dim TimeElapsedSecs As Double = Now.TotalSeconds - LastRequestTimestamp.TotalSeconds
+		    Dim TimeElapsedSecs As Double = Now.SecondsFrom1970 - LastRequestTimestamp.SecondsFrom1970
 		    
 		    // If the session has expired...
 		    If TimeElapsedSecs > SessionsTimeOutSecs Then
 		      
 		      // Append the session's key to the array.
-		      ExpiredSessionIDs.Append(Key)
+		      ExpiredSessionIDs.AddRow(Key)
 		      
 		    End If
 		    
