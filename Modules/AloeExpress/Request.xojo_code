@@ -144,12 +144,12 @@ Inherits SSLSocket
 		  Data = ""
 		  
 		  // If we were unable to split the data into a header and body...
-		  If RequestParts.Ubound < 0 Then
+		  If RequestParts.LastRowIndex < 0 Then
 		    Return
 		  End If
 		  
 		  // Remove the header part.
-		  RequestParts.Remove(0)
+		  RequestParts.RemoveRowAt(0)
 		  
 		  // Merge the remaining parts to form the entire request body.
 		  Body = Join(RequestParts, EndOfLine.Windows + EndOfLine.Windows)
