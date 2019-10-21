@@ -188,7 +188,7 @@ Protected Class Response
 		    Headers.Value("X-Last-Connect") = Request.LastConnect.SQLDateTime
 		    Headers.Value("X-Socket-ID") = Request.SocketID
 		    Headers.Value("X-Xojo-Version") = XojoVersionString
-		    Headers.Value("X-Server-Active-Conns") = Integer(Request.Server.ActiveConnections.Ubound + 1).ToText
+		    Headers.Value("X-Server-Active-Conns") = Request.Server.ActiveConnections.Count.ToText
 		    Headers.Value("X-Server-Port") = Request.Server.Port
 		  #Endif
 		  
