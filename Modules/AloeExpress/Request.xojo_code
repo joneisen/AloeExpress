@@ -614,7 +614,7 @@ Inherits SSLSocket
 		  Dim ContentTypeParts() As String = ContentType.Split("boundary=")
 		  
 		  // If the content does not have a boundary...
-		  If ContentTypeParts.Ubound < 1 Then
+		  If ContentTypeParts.LastRowIndex < 1 Then
 		    Return
 		  End If
 		  
@@ -625,13 +625,13 @@ Inherits SSLSocket
 		  Dim Parts() As String = Body.Split("--" + Boundary)
 		  
 		  // Loop over the parts, skipping the header...
-		  For i As Integer = 1 To Parts.Ubound
+		  For i As Integer = 1 To Parts.LastRowIndex
 		    
 		    // Split the part into its header and content.
 		    Dim PartComponents() As String = Parts(i).Split(EndOfLine.Windows + EndOfLine.Windows)
 		    
 		    // If this part has no content...
-		    If PartComponents.Ubound < 1 Then
+		    If PartComponents.LastRowIndex < 1 Then
 		      Continue
 		    End If
 		    
@@ -677,7 +677,7 @@ Inherits SSLSocket
 		          // Split the disposition part into name / value pairs.
 		          Dim NameValue() As String = DispPart.Split("=")
 		          
-		          If NameValue.Ubound < 0 Then
+		          If NameValue.LastRowIndex < 0 Then
 		            Continue
 		          End If
 		          
@@ -709,7 +709,7 @@ Inherits SSLSocket
 		      FileDictionary.Value("ContentType") = FileContentType
 		      FileDictionary.Value("Content") = PartContent
 		      FileDictionary.Value("Filename") = Filename
-		      FileDictionary.Value("ContentLength") = PartContent.Len
+		      FileDictionary.Value("ContentLength") = PartContent.Length
 		      Files.Value(Fieldname) = FileDictionary
 		    Else
 		      POST.Value(Fieldname) = PartContent
