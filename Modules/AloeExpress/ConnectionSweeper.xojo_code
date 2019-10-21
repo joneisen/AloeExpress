@@ -81,19 +81,20 @@ Inherits Timer
 		  End If
 		  
 		  // Loop over the server's WebSockets...
-		  For i As Integer = Server.WebSockets.Ubound DownTo 0
+		  For i As Integer = Server.WebSockets.LastRowIndex DownTo 0
 		    
 		    // Get the socket.
 		    Dim Socket As AloeExpress.Request = Server.WebSockets(i)
 		    
 		    // Get the current date/time.
-		    Dim Now As New Date
+		    Dim Now As DateTime = DateTime.Now
 		    
 		    // Get the socket's last connection timestamp.
-		    Dim Timeout As Date = Socket.LastConnect
+		    Dim Timeout As DateTime = Socket.LastConnect
 		    
 		    // Determine when the connection will timeout due to inactivity.
-		    Timeout.Second = Timeout.Second + Server.WSTimeout
+		    //years, months, days, hours, minutes, seconds
+		    Timeout = Timeout.AddInterval( 0, 0, 0, 0, 0, Server.WSTimeout )
 		    
 		    // If the socket has timed out...
 		    If Now > Timeout Then
