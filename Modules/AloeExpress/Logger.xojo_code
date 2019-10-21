@@ -23,10 +23,11 @@ Inherits Thread
 		  
 		  
 		  // Get the current date.
-		  Dim CurrentDate As New Date
+		  Dim CurrentDate As DateTime = DateTime.Now
 		  
 		  // Adjust the current date so that it is based on GMT.
-		  CurrentDate.GMTOffset = 0
+		  //years, months, days, hours, minutes, seconds
+		  CurrentDate = CurrentDate.SubtractInterval( 0, 0, 0, 0, 0, CurrentDate.Timezone.SecondsFromGMT )
 		  
 		  // Get the current date formatted as YYYYMMDD.
 		  Dim YearFormatted As String = CurrentDate.Year.ToText
@@ -76,7 +77,7 @@ Inherits Thread
 		      
 		    Else
 		      // Append to the existing file.
-		      TOS = TextOutputStream.Append(FI)
+		      TOS = TextOutputStream.Open(FI)
 		    End If
 		    
 		    // Write to the log file.
@@ -84,7 +85,7 @@ Inherits Thread
 		    + Request.Method + CHR(9) _
 		    + Request.Path + CHR(9) _
 		    + Request.Response.Status + CHR(9) _
-		    + Request.Response.Content.Len.ToText + CHR(9) _
+		    + Request.Response.Content.Length.ToText + Chr(9) _
 		    + Request.Headers.Lookup("X-Forwarded-For", Request.RemoteAddress) + CHR(9) _
 		    + Request.Headers.Lookup("User-Agent", "") + CHR(9) _
 		    + Request.Headers.Lookup("Referer", "") _
