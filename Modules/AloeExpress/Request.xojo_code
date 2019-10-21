@@ -1225,7 +1225,7 @@ Inherits SSLSocket
 		  Dim Scripts() As String =Response.Content.Split("<xojoscript>")
 		  
 		  // If there are no scripts in the content.
-		  If Scripts.Ubound = 0 Then
+		  If Scripts.LastRowIndex = 0 Then
 		    Return
 		  End If
 		  
@@ -1233,7 +1233,7 @@ Inherits SSLSocket
 		  Dim Evaluator As New XSProcessor
 		  
 		  // Loop over the XojoScript blocks...
-		  For x As Integer = 0 to Scripts.Ubound
+		  For x As Integer = 0 to Scripts.LastRowIndex
 		    
 		    // Get the next XojoScript block.
 		    Evaluator.Source = AloeExpress.BlockGet(Response.Content, "<xojoscript>", "</xojoscript>", 0)
