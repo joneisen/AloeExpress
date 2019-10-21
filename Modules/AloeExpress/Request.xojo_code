@@ -1089,7 +1089,7 @@ Inherits SSLSocket
 		  WSStatus = "Active"
 		  
 		  // Register the socket as a WebSocket.
-		  Server.WebSockets.Append(Self)
+		  Server.WebSockets.AddRow(Self)
 		End Sub
 	#tag EndMethod
 
