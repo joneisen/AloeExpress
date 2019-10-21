@@ -1033,7 +1033,7 @@ Inherits SSLSocket
 		  Dim URLParamParts() As String = Header.Split("?")
 		  
 		  // Remove the first element, which should be the method and path.
-		  URLParamParts.Remove(0)
+		  URLParamParts.RemoveRowAt(0)
 		  
 		  // Recombine the URL parameters.
 		  URLParams = Join(URLParamParts, "?")
