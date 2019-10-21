@@ -20,7 +20,7 @@ Inherits Timer
 		  
 		  // Schedule the SessionSweep process.
 		  Period = SweepIntervalSecs * 1000
-		  Mode = Timer.ModeMultiple
+		  RunMode = timer.RunModes.Multiple
 		  
 		  
 		  
