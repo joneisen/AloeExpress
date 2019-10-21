@@ -1150,7 +1150,7 @@ Inherits SSLSocket
 		  // Get the masking key.
 		  Dim MaskKey() As UInteger
 		  For i As Integer = 0 to 3
-		    MaskKey.Append(DataPtr.Byte(MaskKeyStartingByte + i))
+		    MaskKey.AddRow(DataPtr.Byte(MaskKeyStartingByte + i))
 		  Next
 		  
 		  // Determine where the data bytes start.
@@ -1159,7 +1159,7 @@ Inherits SSLSocket
 		  // Get the masked data...
 		  Dim DataMasked() As UInteger
 		  For i As Integer = 0 to PayloadSize - 1
-		    DataMasked.Append(DataPtr.Byte(DataStartingByte + i))
+		    DataMasked.AddRow(DataPtr.Byte(DataStartingByte + i))
 		  Next
 		  
 		  // Unmask the data and store it in the Request body...
