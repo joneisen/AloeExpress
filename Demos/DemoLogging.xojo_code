@@ -28,7 +28,7 @@ Protected Module DemoLogging
 		  Dim Logger As New AloeExpress.Logger
 		  Logger.Folder = GetFolderItem("").Parent.Child("logs")
 		  Logger.Request = Request
-		  Logger.Run
+		  Logger.Start
 		End Sub
 	#tag EndMethod
 
