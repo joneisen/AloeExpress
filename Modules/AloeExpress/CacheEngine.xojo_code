@@ -149,7 +149,7 @@ Inherits Timer
 		  
 		  
 		  // Get the current date/time.
-		  Dim Now As New Date
+		  Dim Now As DateTime = DateTime.Now
 		  
 		  // This is an array of the cache names that have expired.
 		  Dim ExpiredCacheNames() As String
@@ -161,13 +161,13 @@ Inherits Timer
 		    Dim CacheEntry As Dictionary = Cache.Value(Key)
 		    
 		    // Set the expiration date.
-		    Dim Expiration As Date = CacheEntry.Value("Expiration")
+		    Dim Expiration As DateTime = CacheEntry.Value("Expiration")
 		    
 		    // If the session has expired...
 		    If Now > Expiration Then
 		      
 		      // Append the cache name to the array.
-		      ExpiredCacheNames.Append(Key)
+		      ExpiredCacheNames.AddRow(Key)
 		      
 		    End If
 		    
