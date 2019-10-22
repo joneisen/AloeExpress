@@ -187,7 +187,7 @@ Protected Class MustacheLite
 		  DateData.Value("sqldatetime") = Today.SQLDateTime
 		  DateData.Value("SecondsFrom1970") = Today.SecondsFrom1970
 		  DateData.Value("weekofyear") = Today.WeekOfYear.ToString
-		  DateData.Value("year") = AloeExpress.TextToString(Today.Year.ToText)
+		  DateData.Value("year") = Today.Year.ToString
 		  SystemData.Value("date") = DateData
 		  
 		  // Add the Meta object.
