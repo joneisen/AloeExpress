@@ -1048,11 +1048,11 @@ Inherits SSLSocket
 		Sub WSConnectionClose()
 		  
 		  // Loop over each WebSocket connection...
-		  For i As Integer = 0 to Server.WebSockets.Ubound
+		  For i As Integer = 0 To Server.WebSockets.LastRowIndex
 		    
 		    Dim Socket As AloeExpress.Request =  Server.WebSockets(i)
 		    If Socket = Self Then
-		      Server.WebSockets.Remove(i)
+		      Server.WebSockets.RemoveRowAt(i)
 		      Exit
 		    End If
 		    
