@@ -758,9 +758,9 @@ Inherits SSLSocket
 		  PathItems = New Dictionary
 		  
 		  // If there are path components...
-		  If PathComponents.Ubound > -1 Then
+		  If PathComponents.LastRowIndex > -1 Then
 		    
-		    For i As Integer = 0 To PathComponents.Ubound
+		    For i As Integer = 0 To PathComponents.LastRowIndex
 		      PathItems.Value(i) = PathComponents(i)
 		    Next
 		    
