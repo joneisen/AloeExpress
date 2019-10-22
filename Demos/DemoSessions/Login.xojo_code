@@ -79,12 +79,12 @@ Protected Class Login
 		  
 		  Dim Username As String = Request.POST.Lookup("username", "")
 		  If Username = "" Then
-		    ValidationErrors.Append("You did not enter your username.")
+		    ValidationErrors.AddRow("You did not enter your username.")
 		  End If
 		  
 		  Dim Password As String = Request.POST.Lookup("password", "")
 		  If Password = "" Then
-		    ValidationErrors.Append("You did not enter your password.")
+		    ValidationErrors.AddRow("You did not enter your password.")
 		  End If
 		End Sub
 	#tag EndMethod
