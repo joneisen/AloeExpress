@@ -91,19 +91,19 @@ Protected Class MustacheLite
 		        Dim TokenEnd As String = "{{/" + If(KeyPrefix <> "", KeyPrefix + ".", "") + Key + "}}"
 		        
 		        // Get the start position of the beginning token.
-		        Dim StartPosition As Integer = Source.InStr(0, TokenBegin) 
+		        Dim StartPosition As Integer = Source.IndexOf(0, TokenBegin) 
 		        
 		        // Get the position of the ending token.
-		        Dim StopPosition As Integer = Source.InStr(StartPosition, TokenEnd)
+		        Dim StopPosition As Integer = Source.IndexOf(StartPosition, TokenEnd)
 		        
 		        // If the template does not include both the beginning and ending tokens...
-		        If ( (StartPosition = 0) or (StopPosition = 0) ) Then
+		        If ( (StartPosition = -1) Or (StopPosition = -1) ) Then
 		          // We do not need to merge the array.
 		          Continue
 		        End If
 		        
 		        // Get the content between the beginning and ending tokens.
-		        Dim LoopSource As String = Mid(Source, StartPosition + TokenBegin.Len, StopPosition - StartPosition - TokenBegin.Len)
+		        Dim LoopSource As String = Source.Middle( StartPosition + TokenBegin.Length, StopPosition - StartPosition - TokenBegin.Length)
 		        
 		        // LoopContent is the content created by looping over the array and merging each value.
 		        Dim LoopContent As String
@@ -111,7 +111,7 @@ Protected Class MustacheLite
 		        // Loop over the array elements...
 		        For i As Integer = 0 to NestedJSON.Count - 1
 		          
-		          Dim ArrayValue As Variant = NestedJSON.Value(i)
+		          Dim ArrayValue As Variant = NestedJSON.ValueAt(i)
 		          
 		          // Process the value using another instance of Template. 
 		          Dim Engine As New MustacheLite
