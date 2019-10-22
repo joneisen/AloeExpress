@@ -40,12 +40,12 @@ Protected Class Chat
 		  For Each WebSockets As AloeExpress.Request In Request.Server.WebSockets
 		    Dim Username As String = WebSockets.Custom.Lookup("username", "")
 		    If Username <> NewUsername Then
-		      Usernames.Append(AloeExpress.URLEncode(username))
+		      Usernames.AddRow(AloeExpress.URLEncode(username))
 		    End If
 		  Next
 		  
 		  // If this is the first user in the chat...
-		  If Usernames.Ubound = -1 Then
+		  If Usernames.LastRowIndex = -1 Then
 		    
 		    // Return the list.
 		    Dim ResponseJSON As New JSONItem
