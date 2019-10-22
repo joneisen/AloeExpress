@@ -129,7 +129,7 @@ Protected Class Login
 		  // If the password was incorrect...
 		  Dim Password As String = Request.POST.Lookup("password", "")
 		  If Password <> "secret" Then
-		    ValidationErrors.Append("The password that you provided is incorrect.")
+		    ValidationErrors.AddRow("The password that you provided is incorrect.")
 		    Return
 		  End
 		  
