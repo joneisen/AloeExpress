@@ -85,7 +85,7 @@ Inherits ServerSocket
 		    End If
 		    
 		    If Arguments.HasKey("--CertificateFile") Then 
-		      CertificateFile = New FolderItem(Arguments.Value("--CertificateFile"), 1)
+		      CertificateFile = New FolderItem(Arguments.Value("--CertificateFile"), FolderItem.PathModes.Shell)
 		    End If
 		    
 		    If Arguments.HasKey("--CertificatePassword") Then 
