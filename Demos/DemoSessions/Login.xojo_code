@@ -45,7 +45,7 @@ Protected Class Login
 		    FormValidate
 		    
 		    // If no validation errors were found...
-		    If ValidationErrors.Ubound = -1 Then
+		    If ValidationErrors.LastRowIndex = -1 Then
 		      
 		      // Try to authenticate the user.
 		      UserAuthenticate
