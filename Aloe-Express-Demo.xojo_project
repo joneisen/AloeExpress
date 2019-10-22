@@ -39,7 +39,6 @@ Class=XSProcessor;Modules/AloeExpress/XSProcessor.xojo_code;&h0000000035DFFFFF;&
 Class=Chat;Demos/DemoWebSockets/Chat.xojo_code;&h000000001D15DFFF;&h00000000475E3FFF;false
 Class=RequestThread;Modules/AloeExpress/RequestThread.xojo_code;&h000000000B14C7FF;&h000000001B3587FF;false
 Class=FormProcessor;Demos/DemoMultipartForms/FormProcessor.xojo_code;&h000000003A05E7FF;&h0000000027DAB7FF;false
-Module=Extensions;Modules/Extensions.xojo_code;&h00000000106F8FFF;&h000000005B71A7FF;false
 MajorVersion=2
 MinorVersion=0
 SubVersion=0

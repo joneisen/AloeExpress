@@ -962,6 +962,25 @@ Protected Module AloeExpress
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function ToString(extends s as SSLSocket.SSLConnectionTypes) As String
+		  Dim output As String
+		  Select Case s
+		  Case SSLSocket.SSLConnectionTypes.SSLv23
+		    output = "SSL version 3"
+		  Case SSLSocket.SSLConnectionTypes.TLSv1
+		    output = "TLS version 1" 
+		  Case SSLSocket.SSLConnectionTypes.TLSv11
+		    output = "TLS version 1.1"
+		  Case SSLSocket.SSLConnectionTypes.TLSv12
+		    output = "TLS version 1.2"
+		  Else
+		    Raise New Xojo.Core.BadDataException
+		  End Select
+		  Return output
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function URLDecode(Encoded As String) As String
 		  // Properly and fully decodes a URL-encoded value.
 		  // Unlike Xojo's "DecodeURLComponent," this method decodes any "+" characters
