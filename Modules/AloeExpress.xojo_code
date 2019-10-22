@@ -1033,7 +1033,7 @@ Protected Module AloeExpress
 
 	#tag Method, Flags = &h0
 		Function VersionString() As String
-		  Return "4.1.1"
+		  Return "4.2.0"
 		End Function
 	#tag EndMethod
 
@@ -1399,6 +1399,18 @@ Protected Module AloeExpress
 		
 		The DataAvailable event handler has been rolled back to resolve issues that some
 		users are experiencing when processing multi-part forms.
+		
+	#tag EndNote
+
+	#tag Note, Name = 4.2.0
+		-----------------------------------------------------------------------------------------
+		4.2.0
+		-----------------------------------------------------------------------------------------
+		
+		AloeExpress has been updated to use API 2.0 released with Xojo 2019R2
+		
+		By: Jon Eisen
+		https://github.com/joneisen
 		
 	#tag EndNote
 
