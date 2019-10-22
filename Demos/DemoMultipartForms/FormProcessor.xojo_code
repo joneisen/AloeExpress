@@ -22,7 +22,7 @@ Protected Class FormProcessor
 		    FieldInfo.Value("Value") = Request.POST.Value(FieldName)
 		    
 		    // Append this field's info tp the FieldsInfoJSON object.
-		    FieldsInfoJSON.Append(FieldInfo)
+		    FieldsInfoJSON.Add(FieldInfo)
 		    
 		  Next
 		  
