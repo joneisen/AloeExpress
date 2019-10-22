@@ -104,11 +104,12 @@ Inherits Timer
 		  
 		  
 		  // Create the expiration date/time.
-		  Dim Expiration As New Date
-		  Expiration.Second = Expiration.Second + ExpirationSecs
+		  Dim Expiration As DateTime = DateTime.Now
+		  //years, months, days, hours, minutes, seconds
+		  Expiration = Expiration.AddInterval( 0, 0, 0, 0, 0, ExpirationSecs )
 		  
 		  // Get the current date/time.
-		  Dim Now As New Date
+		  Dim Now As DateTime = DateTime.Now
 		  
 		  // Create the cache entry.
 		  Dim CacheEntry As New Dictionary
