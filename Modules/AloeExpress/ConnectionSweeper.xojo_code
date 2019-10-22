@@ -20,7 +20,7 @@ Inherits Timer
 		  
 		  // Schedule the Sweep process.
 		  Period = Server.ConnSweepIntervalSecs * 1000
-		  Mode = Timer.ModeMultiple
+		  RunMode = Timer.RunModes.Multiple
 		End Sub
 	#tag EndMethod
 
