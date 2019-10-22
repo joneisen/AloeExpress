@@ -167,26 +167,27 @@ Protected Class MustacheLite
 		  
 		  // Add the Date object.
 		  Dim DateData As New JSONItem
-		  Dim Today As New Date
-		  DateData.Value("abbreviateddate") = Today.AbbreviatedDate
-		  DateData.Value("day") = Today.Day.ToText
-		  DateData.Value("dayofweek") = Today.DayOfWeek.ToText
-		  DateData.Value("dayofyear") = Today.DayOfYear.ToText
-		  DateData.Value("gmtoffset") = Today.GMTOffset
-		  DateData.Value("hour") = Today.Hour.ToText
-		  DateData.Value("longdate") = Today.LongDate
-		  DateData.Value("longtime") = Today.LongTime
-		  DateData.Value("minute") = Today.Minute.ToText
-		  DateData.Value("month") = Today.Month.ToText
-		  DateData.Value("second") = Today.Second.ToText
-		  DateData.Value("shortdate") = Today.ShortDate
-		  DateData.Value("shorttime") = Today.ShortTime
+		  Dim Today As DateTime = DateTime.Now
+		  DateData.Value("abbreviateddate") = Today.ToString( Nil, DateTime.FormatStyles.Medium, DateTime.FormatStyles.None )
+		  DateData.Value("day") = Today.Day.ToString
+		  DateData.Value("dayofweek") = Today.DayOfWeek.ToString
+		  DateData.Value("dayofyear") = Today.DayOfYear.ToString
+		  Dim GMTOffset As Double = Today.Timezone.SecondsFromGMT / 3600 //3600 seconds in an hour
+		  DateData.Value("gmtoffset") = GMTOffset.ToString
+		  DateData.Value("hour") = Today.Hour.ToString
+		  DateData.Value("longdate") = Today.ToString( Nil, DateTime.FormatStyles.Long, DateTime.FormatStyles.None )
+		  DateData.Value("longtime") = Today.ToString( Nil, DateTime.FormatStyles.None, DateTime.FormatStyles.Medium ) // This is the closest equivalent to the old code. We might have to trip the AM and PM off the end
+		  DateData.Value("minute") = Today.Minute.ToString
+		  DateData.Value("month") = Today.Month.ToString
+		  DateData.Value("second") = Today.Second.ToString
+		  DateData.Value("shortdate") = Today.ToString( Nil, DateTime.FormatStyles.Short, DateTime.FormatStyles.None )
+		  DateData.Value("shorttime") = Today.ToString( Nil, DateTime.FormatStyles.None, DateTime.FormatStyles.Short )
 		  DateData.Value("sql") = Today.SQLDate
 		  DateData.Value("sqldate") = Today.SQLDate
 		  DateData.Value("sqldatetime") = Today.SQLDateTime
-		  DateData.Value("totalseconds") = Today.TotalSeconds
-		  DateData.Value("weekofyear") = Today.WeekOfYear.ToText
-		  DateData.Value("year") = Today.Year.ToText
+		  DateData.Value("SecondsFrom1970") = Today.SecondsFrom1970
+		  DateData.Value("weekofyear") = Today.WeekOfYear.ToString
+		  DateData.Value("year") = AloeExpress.TextToString(Today.Year.ToText)
 		  SystemData.Value("date") = DateData
 		  
 		  // Add the Meta object.
