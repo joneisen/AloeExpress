@@ -167,7 +167,7 @@ Protected Class Chat
 		  For Each Request As AloeExpress.Request In Request.Server.WebSockets
 		    Dim Username As String = Request.Custom.Lookup("username", "")
 		    If Username <> "" Then
-		      Usernames.Append(AloeExpress.URLEncode(username))
+		      Usernames.AddRow(AloeExpress.URLEncode(username))
 		    End If
 		  Next
 		  
