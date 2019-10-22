@@ -2,12 +2,13 @@
 Protected Class ConnectionSweeper
 Inherits Timer
 	#tag Event
-		Sub Action()
+		Sub Run()
 		  // Closes any HTTP connections that have timed out.
 		  HTTPConnSweep
 		  
 		  // Closes any WebSocket connections that have timed out.
 		  WSConnSweep
+		  
 		End Sub
 	#tag EndEvent
 
