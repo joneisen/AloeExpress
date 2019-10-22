@@ -34,10 +34,10 @@ Protected Module AloeExpress
 		  Dim StopPosition As Integer = Source.IndexOf(StartPosition, TokenEnd)
 		  
 		  // If the template includes both the beginning and ending tokens...
-		  If ( (StartPosition > 0) and (StopPosition > 0) ) Then
+		  If ( (StartPosition > -1) And (StopPosition > -1) ) Then
 		    
 		    // Get the content between the tokens.
-		    Content = Source.Middle( StartPosition + TokenBegin.Length - 1, StopPosition - StartPosition - TokenBegin.Length )
+		    Content = Source.Middle( StartPosition + TokenBegin.Length, StopPosition - StartPosition - TokenBegin.Length )
 		    
 		  End If
 		  
