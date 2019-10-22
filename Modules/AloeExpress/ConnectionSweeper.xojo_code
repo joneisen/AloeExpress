@@ -110,7 +110,7 @@ Inherits Timer
 		      Socket.Close
 		      
 		      // Remove the socket from the array.
-		      Server.WebSockets.Remove(i)
+		      Server.WebSockets.RemoveRowAt(i)
 		      
 		    End If
 		    
