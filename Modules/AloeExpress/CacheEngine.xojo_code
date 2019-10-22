@@ -66,10 +66,10 @@ Inherits Timer
 		    Dim CacheEntry As Dictionary = Cache.Value(Name)
 		    
 		    // Get the cache's expiration date.
-		    Dim Expiration As Date = CacheEntry.Value("Expiration")
+		    Dim Expiration As DateTime = CacheEntry.Value("Expiration")
 		    
 		    // Get the current date.
-		    Dim Now As New Date
+		    Dim Now As DateTime = DateTime.Now
 		    
 		    // If the cache has not expired...
 		    If Expiration > Now Then
