@@ -128,7 +128,7 @@ Protected Class DrummersList
 		  // Prepare a JSON item for use with the Template.
 		  Dim TemplateData As New JSONItem
 		  TemplateData.Value("cached") = BooleanToString(CacheUsed)
-		  TemplateData.Value("cacheExpiration") = CacheExpiration.ShortTime
+		  TemplateData.Value("cacheExpiration") = CacheExpiration.ToString( Nil, DateTime.FormatStyles.None, DateTime.FormatStyles.Short )
 		  TemplateData.Value("drummers") = Drummers
 		  
 		  // Create a Template instance.  
@@ -153,7 +153,7 @@ Protected Class DrummersList
 
 
 	#tag Property, Flags = &h0
-		CacheExpiration As Date
+		CacheExpiration As DateTime
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
