@@ -110,6 +110,8 @@ Inherits SSLSocket
 
 	#tag Event
 		Sub SendComplete(UserAborted As Boolean)
+		  #Pragma Unused UserAborted
+		  
 		  // The response has been sent back to the client.
 		  
 		  // If persistent connections are disabled...
@@ -1113,11 +1115,15 @@ Inherits SSLSocket
 		  
 		  // Is this the last message in the series?
 		  Dim FinBit As UInteger = FirstByte And &b10000000
+		  #Pragma Unused FinBit
 		  
 		  // Get the reserved extension bits.
 		  Dim RSV1 As Integer = FirstByte And &b01000000
 		  Dim RSV2 As Integer = FirstByte And &b00100000
 		  Dim RSV3 As Integer = FirstByte And &b00010000
+		  #Pragma Unused RSV1
+		  #Pragma Unused RSV2
+		  #Pragma Unused RSV3
 		  
 		  // Get the OpCode.
 		  Dim OpCode As UInteger = FirstByte And &b00001111
@@ -1133,6 +1139,7 @@ Inherits SSLSocket
 		  
 		  // Is the payload masked?
 		  Dim MaskedBit As UInteger = SecondByte And &b10000000
+		  #Pragma Unused MaskedBit
 		  
 		  // Get the payload size.
 		  Dim PayloadSize As UInteger = SecondByte And &b01111111

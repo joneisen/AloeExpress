@@ -1,6 +1,6 @@
 #tag Module
 Protected Module DemoSessions
-	#tag CompatibilityFlags = (TargetConsole and (Target32Bit or Target64Bit)) or  (TargetWeb and (Target32Bit or Target64Bit)) or  (TargetDesktop and (Target32Bit or Target64Bit)) or  (TargetIOS and (Target32Bit or Target64Bit))
+	#tag CompatibilityFlags = ( TargetConsole and ( Target32Bit or Target64Bit ) ) or ( TargetWeb and ( Target32Bit or Target64Bit ) ) or ( TargetDesktop and ( Target32Bit or Target64Bit ) ) or ( TargetIOS and ( Target32Bit or Target64Bit ) )
 	#tag Method, Flags = &h0
 		Sub RequestProcess(Request As AloeExpress.Request)
 		  // By default, the Request.StaticPath points to an "htdocs" folder.
@@ -10,16 +10,22 @@ Protected Module DemoSessions
 		  // If this is a request for the root...
 		  If Request.Path = "/" or Request.Path = "/index.html" Then
 		    Dim Home As New Home(Request)
+		    #Pragma Unused Home
 		  ElseIf Request.Path = "/confidential" Then
 		    Dim Confidential As New Confidential(Request)
+		    #Pragma Unused Confidential
 		  ElseIf Request.Path = "/login" Then
 		    Dim Login As New Login(Request)
+		    #Pragma Unused Login
 		  ElseIf Request.Path = "/logout" Then
 		    Dim Logout As New Logout(Request)
+		    #Pragma Unused Logout
 		  ElseIf Request.Path = "/secret" Then
 		    Dim Secret As New Secret(Request)
+		    #Pragma Unused Secret
 		  ElseIf Request.Path = "/sessions" Then
 		    Dim Sessions As New Sessions(Request)
+		    #Pragma Unused Sessions
 		  Else
 		    
 		    // Map the request to a file.

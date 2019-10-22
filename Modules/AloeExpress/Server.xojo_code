@@ -3,6 +3,7 @@ Protected Class Server
 Inherits ServerSocket
 	#tag Event
 		Sub Error(ErrorCode As Integer, err As RuntimeException)
+		  #Pragma Unused err
 		  System.DebugLog "Aloe Express Server Error: Code: " + ErrorCode.ToText
 		End Sub
 	#tag EndEvent
@@ -28,6 +29,7 @@ Inherits ServerSocket
 		  Catch e As RunTimeException
 		    
 		    Dim TypeInfo As Xojo.Introspection.TypeInfo = Xojo.Introspection.GetType(e)
+		    #Pragma Unused TypeInfo
 		    
 		    System.DebugLog "Aloe Express Server Error: Unable to Add Socket w/ID " + CurrentSocketID.ToText
 		    
@@ -148,6 +150,7 @@ Inherits ServerSocket
 		  
 		  // Create a ConnectionSweeper timer object for this server.
 		  Dim Sweeper As New ConnectionSweeper(Self)
+		  #Pragma Unused Sweeper
 		  
 		  // If caching is enabled...
 		  If CachingEnabled Then

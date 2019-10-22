@@ -4,6 +4,8 @@ Inherits XojoScript
 	#tag Event
 		Function CompilerError(location As XojoScriptLocation, error As XojoScript.Errors, errorInfo As Dictionary) As Boolean
 		  // Handles XojoScript compilation errors.
+		  #Pragma Unused location
+		  #Pragma Unused errorInfo
 		  Result = "<!-- XojoScript Error: " + ErrorCodeToString(error) + " -->"
 		  
 		End Function
