@@ -1177,41 +1177,41 @@ Inherits SSLSocket
 		  // Sends a WebSocket (text) message to a client.
 		  
 		  // Get the message length.
-		  Dim MessageLength As UInteger = Len(Message)
+		  Dim MessageLength As UInteger = Message.Length
 		  
 		  // If the entire message can be sent in a single frame...
 		  If MessageLength < 126 Then
-		    Dim Byte1 As UInteger = 129
-		    Dim Byte2 As UInteger = MessageLength
-		    Write ChrB(Byte1) + ChrB(Byte2) + Message
+		    Dim mb As New MemoryBlock( 2 )
+		    mb.Byte( 0 ) = 129
+		    mb.Byte( 1 ) = MessageLength
+		    Write mb.StringValue( 0, 2 ) + Message
 		    Return
 		  End If
 		  
 		  // Due to its length, the message needs to be sent in multiple frames...
 		  If MessageLength >= 126 and MessageLength < 65535 Then
-		    Dim Byte1 As UInteger = 129
-		    Dim Byte2 As UInteger = 126
-		    Dim Byte3 As UInteger = Bitwise.ShiftRight(MessageLength, 8) And 255
-		    Dim Byte4 As UInteger = MessageLength And 255
-		    Write ChrB(Byte1) + ChrB(Byte2) + ChrB(Byte3) + ChrB(Byte4) + Message
+		    Dim mb As New MemoryBlock( 4 )
+		    mb.Byte( 0 ) = 129
+		    mb.Byte( 1 ) = 126
+		    mb.Byte( 2 ) = Bitwise.ShiftRight(MessageLength, 8) And 255
+		    mb.Byte( 3 ) = MessageLength And 255
+		    Write mb.StringValue( 0, 4 ) + Message
 		    Return
 		  End If
 		  
 		  If MessageLength >= 65535 Then
-		    Dim Byte1 As UInteger = 129
-		    Dim Byte2 As UInteger = 127
-		    Dim Byte3 As UInt64 = Bitwise.ShiftRight(MessageLength, 56) And 255
-		    Dim Byte4 As UInt64 = Bitwise.ShiftRight(MessageLength, 48) And 255
-		    Dim Byte5 As UInt64 = Bitwise.ShiftRight(MessageLength, 40) And 255
-		    Dim Byte6 As UInt64 = Bitwise.ShiftRight(MessageLength, 32) And 255
-		    Dim Byte7 As UInt64 = Bitwise.ShiftRight(MessageLength, 24) And 255
-		    Dim Byte8 As UInt64 = Bitwise.ShiftRight(MessageLength, 16) And 255
-		    Dim Byte9 As UInt64 = Bitwise.ShiftRight(MessageLength, 8) And 255
-		    Dim Byte10 As UInt64 =  MessageLength And 255
-		    Write ChrB(Byte1) + ChrB(Byte2) _
-		    + ChrB(Byte3) + ChrB(Byte4) + ChrB(Byte5) + ChrB(Byte6) _
-		    + ChrB(Byte7) + ChrB(Byte8) + ChrB(Byte9) + ChrB(Byte10) _
-		    + Message
+		    Dim mb As New MemoryBlock( 10 )
+		    mb.Byte( 0 ) = 129
+		    mb.Byte( 1 ) = 127
+		    mb.Byte( 2 ) = Bitwise.ShiftRight(MessageLength, 56) And 255
+		    mb.Byte( 3 ) = Bitwise.ShiftRight(MessageLength, 48) And 255
+		    mb.Byte( 4 ) = Bitwise.ShiftRight(MessageLength, 40) And 255
+		    mb.Byte( 5 ) = Bitwise.ShiftRight(MessageLength, 32) And 255
+		    mb.Byte( 6 ) = Bitwise.ShiftRight(MessageLength, 24) And 255
+		    mb.Byte( 7 ) = Bitwise.ShiftRight(MessageLength, 16) And 255
+		    mb.Byte( 8 ) = Bitwise.ShiftRight(MessageLength, 8) And 255
+		    mb.Byte( 9 ) =  MessageLength And 255
+		    Write mb.StringValue( 0, 10 ) + Message
 		    Return
 		  End If
 		  
