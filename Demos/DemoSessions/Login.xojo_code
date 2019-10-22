@@ -4,14 +4,14 @@ Protected Class Login
 	#tag Method, Flags = &h0
 		Sub BodyContentGenerate()
 		  // If the form has been submitted and validation errors were found...
-		  If ValidationErrors.Ubound > -1 Then
+		  If ValidationErrors.LastRowIndex > -1 Then
 		    
 		    // We'll include information about the errors.
 		    BodyContent = ErrorsIntro
 		    
 		    // Build the list of errors...
 		    Dim ErrorsList As String
-		    For i As integer = 0 to ValidationErrors.Ubound
+		    For i As integer = 0 to ValidationErrors.LastRowIndex
 		      ErrorsList = ErrorsList _
 		      + "<li>" + ValidationErrors(i) + "</li>" + EndOfLine
 		    Next
