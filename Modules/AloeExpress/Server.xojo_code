@@ -383,8 +383,14 @@ Inherits ServerSocket
 			Visible=false
 			Group="Behavior"
 			InitialValue=""
-			Type="Integer"
-			EditorType=""
+			Type="SSLSocket.SSLConnectionTypes"
+			EditorType="Enum"
+			#tag EnumValues
+				"2 - SSLv23"
+				"3 - TLSv1"
+				"4 - TLSv11"
+				"5 - TLSv12"
+			#tag EndEnumValues
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="CertificatePassword"
