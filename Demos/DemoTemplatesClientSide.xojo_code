@@ -71,7 +71,7 @@ Protected Module DemoTemplatesClientSide
 		  DateData.Value("sql") = Today.SQLDate
 		  DateData.Value("sqldate") = Today.SQLDate
 		  DateData.Value("sqldatetime") = Today.SQLDateTime
-		  DateData.Value("totalseconds") = Today.SecondsFrom1970
+		  DateData.Value("SecondsFrom1970") = Today.SecondsFrom1970
 		  DateData.Value("weekofyear") = Today.WeekOfYear.ToString
 		  DateData.Value("year") = AloeExpress.TextToString(Today.Year.ToText)
 		  
