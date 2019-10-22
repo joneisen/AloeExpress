@@ -28,7 +28,7 @@ Protected Class DrummersList
 		  
 		  
 		  // Create a folderitem that points to the database file.
-		  DatabaseFile = GetFolderItem("").Parent.Child("data").Child("drummers.sqlite")
+		  DatabaseFile = App.ExecutableFile.Parent.Parent.Child("data").Child("drummers.sqlite")
 		  
 		  // Create a new database instance.
 		  Database = New SQLiteDatabase

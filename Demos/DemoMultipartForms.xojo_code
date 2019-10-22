@@ -5,7 +5,7 @@ Protected Module DemoMultipartForms
 		Sub RequestProcess(Request As AloeExpress.Request)
 		  // By default, the Request.StaticPath points to an "htdocs" folder.
 		  // In this example, we're using an alternate folder.
-		  Request.StaticPath = GetFolderItem("").Parent.Child("htdocs").Child("demo-multipart-forms")
+		  Request.StaticPath = App.ExecutableFile.Parent.Parent.Child("htdocs").Child("demo-multipart-forms")
 		  
 		  // If content has been posted...
 		  If Request.Method = "POST" Then
@@ -14,7 +14,7 @@ Protected Module DemoMultipartForms
 		    Dim FP As New FormProcessor(Request)
 		    
 		    // This is the folder that files will be uploaded to.
-		    FP.UploadFolder = GetFolderItem("").Parent.Child("uploads")
+		    FP.UploadFolder = App.ExecutableFile.Parent.Parent.Child("uploads")
 		    
 		    // This is an optional prefix that will be added to files that are saved.
 		    'FP.FilenamePrefix = AloeExpress.UUIDGenerate

@@ -5,7 +5,7 @@ Protected Module DemoHelloWorld
 		Sub RequestProcess(Request As AloeExpress.Request)
 		  // By default, the Request.StaticPath points to an "htdocs" folder.
 		  // In this example, we're using an alternate folder.
-		  Request.StaticPath = GetFolderItem("").Parent.Child("htdocs").Child("demo-hello-world")
+		  Request.StaticPath = App.ExecutableFile.Parent.Parent.Child("htdocs").Child("demo-hello-world")
 		  
 		  // If the request was for the "/hello" path.
 		  If Request.Path = "/hello" Then

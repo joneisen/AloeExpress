@@ -46,7 +46,7 @@ Inherits ServerSocket
 		  MinimumSocketsAvailable = 50
 		  Secure = False
 		  ConnectionType = SSLSocket.SSLConnectionTypes.TLSv12
-		  CertificateFile = GetFolderItem("").Parent.Child("certificates").Child("default-certificate.crt")
+		  CertificateFile = App.ExecutableFile.Parent.Parent.Child("certificates").Child("default-certificate.crt")
 		  CertificatePassword = ""
 		  KeepAlive = True
 		  

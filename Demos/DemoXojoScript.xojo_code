@@ -5,7 +5,7 @@ Protected Module DemoXojoScript
 		Sub RequestProcess(Request As AloeExpress.Request)
 		  // By default, the Request.StaticPath points to an "htdocs" folder.
 		  // In this example, we're using an alternate folder.
-		  Request.StaticPath = GetFolderItem("").Parent.Child("htdocs").Child("demo-xojoscript")
+		  Request.StaticPath = App.ExecutableFile.Parent.Parent.Child("htdocs").Child("demo-xojoscript")
 		  
 		  // Map the request to a file.
 		  Request.MapToFile

@@ -12,7 +12,8 @@ Inherits Thread
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  // Set the default log folder.
-		  Folder = GetFolderItem("").Parent.Child("logs")
+		  Folder = App.ExecutableFile.Parent.Parent.Child( "logs" )
+		  //Folder = GetFolderItem("").Parent.Child("logs")
 		End Sub
 	#tag EndMethod
 
