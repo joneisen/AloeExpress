@@ -20,7 +20,7 @@ Inherits Timer
 		  
 		  // Schedule the CacheSweep process.
 		  Period = SweepIntervalSecs * 1000
-		  Mode = Timer.ModeMultiple
+		  RunMode = Timer.RunModes.Multiple
 		  
 		  
 		  
