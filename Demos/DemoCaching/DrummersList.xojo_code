@@ -28,7 +28,7 @@ Protected Class DrummersList
 		  
 		  
 		  // Create a folderitem that points to the database file.
-		  DatabaseFile = GetFolderItem("").Parent.Child("data").Child("drummers.sqlite")
+		  DatabaseFile = App.ExecutableFile.Parent.Parent.Child("data").Child("drummers.sqlite")
 		  
 		  // Create a new database instance.
 		  Database = New SQLiteDatabase
@@ -80,7 +80,7 @@ Protected Class DrummersList
 		  RecordsGet
 		  
 		  // If we were unable to get records from the database...
-		  If Records = Nil or Records.RecordCount = 0 Then
+		  If Records = Nil or Records.RowCount = 0 Then
 		    Request.Response.Status = "500"
 		    Return
 		  End If
@@ -114,7 +114,7 @@ Protected Class DrummersList
 		  Dim PS As SQLitePreparedStatement = Database.Prepare(SQL)
 		  
 		  // Perform the query.
-		  Records = PS.SQLSelect
+		  Records = PS.SelectSQL
 		  
 		  
 		  
@@ -128,7 +128,7 @@ Protected Class DrummersList
 		  // Prepare a JSON item for use with the Template.
 		  Dim TemplateData As New JSONItem
 		  TemplateData.Value("cached") = BooleanToString(CacheUsed)
-		  TemplateData.Value("cacheExpiration") = CacheExpiration.ShortTime
+		  TemplateData.Value("cacheExpiration") = CacheExpiration.ToString( Nil, DateTime.FormatStyles.None, DateTime.FormatStyles.Short )
 		  TemplateData.Value("drummers") = Drummers
 		  
 		  // Create a Template instance.  
@@ -153,7 +153,7 @@ Protected Class DrummersList
 
 
 	#tag Property, Flags = &h0
-		CacheExpiration As Date
+		CacheExpiration As DateTime
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -177,7 +177,7 @@ Protected Class DrummersList
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		Records As RecordSet
+		Records As RowSet
 	#tag EndProperty
 
 	#tag Property, Flags = &h0

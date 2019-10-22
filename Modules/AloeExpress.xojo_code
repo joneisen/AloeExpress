@@ -11,7 +11,7 @@ Protected Module AloeExpress
 		    
 		    Dim ArgParts() As String = Argument.Split("=")
 		    Dim Name As String = ArgParts(0)
-		    Dim Value As String  = If(ArgParts.Ubound = 1,  ArgParts(1), "")
+		    Dim Value As String  = If(ArgParts.LastRowIndex = 1,  ArgParts(1), "")
 		    
 		    Arguments.Value(Name) = Value
 		    
@@ -28,16 +28,16 @@ Protected Module AloeExpress
 		  Dim Content As String
 		  
 		  // Get the start position of the beginning token.
-		  Dim StartPosition As Integer = Source.InStr(Start, TokenBegin) 
+		  Dim StartPosition As Integer = Source.IndexOf(Start, TokenBegin) 
 		  
 		  // Get the position of the ending token.
-		  Dim StopPosition As Integer = Source.InStr(StartPosition, TokenEnd)
+		  Dim StopPosition As Integer = Source.IndexOf(StartPosition, TokenEnd)
 		  
 		  // If the template includes both the beginning and ending tokens...
-		  If ( (StartPosition > 0) and (StopPosition > 0) ) Then
+		  If ( (StartPosition > -1) And (StopPosition > -1) ) Then
 		    
 		    // Get the content between the tokens.
-		    Content = Mid(Source, StartPosition + TokenBegin.Len, StopPosition - StartPosition - TokenBegin.Len)
+		    Content = Source.Middle( StartPosition + TokenBegin.Length, StopPosition - StartPosition - TokenBegin.Length )
 		    
 		  End If
 		  
@@ -64,7 +64,7 @@ Protected Module AloeExpress
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function DateToRFC1123(TheDate As Date = Nil) As Text
+		Function DateToRFC1123(TheDate As DateTime = Nil) As Text
 		  // Returns a  in RFC 822 / 1123 format.
 		  // Example: Mon, 27 Nov 2017 13:27:26 GMT
 		  // Special thanks to Norman Palardy.
@@ -73,10 +73,12 @@ Protected Module AloeExpress
 		  Dim tmp As Text
 		  
 		  If TheDate = Nil Then
-		    TheDate = New Date
+		    TheDate = DateTime.Now
+		    //years, months, days, hours, minutes, seconds
+		    TheDate = TheDate.SubtractInterval( 0, 0, 0, 0, 0, TheDate.Timezone.SecondsFromGMT )
 		  End If
 		  
-		  TheDate.GMTOffset = 0
+		  //TheDate.GMTOffset = 0
 		  
 		  Select Case TheDate.DayOfWeek
 		  Case 1
@@ -911,30 +913,30 @@ Protected Module AloeExpress
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function RecordSetToJSONItem(Records As RecordSet, Close As Boolean=True) As JSONItem
+		Function RecordSetToJSONItem(Records As RowSet, Close As Boolean = True) As JSONItem
 		  // Converts a recordset to JSONItem.
 		  
 		  
 		  Dim RecordsJSON As New JSONItem
 		  
 		  // Loop over each record...
-		  While Not Records.EOF
+		  While Not Records.AfterLastRow
 		    
 		    Dim RecordJSON As New JSONItem
 		    
 		    // Loop over each column...
-		    For i As Integer = 0 To Records.FieldCount-1
+		    For i As Integer = 0 To Records.ColumnCount-1
 		      
 		      // Add a name / value pair to the JSON record.
-		      RecordJSON.Value( Records.IdxField(i+1).Name ) = Records.IdxField(i+1).StringValue
+		      RecordJSON.Value( Records.ColumnAt(i+1).Name ) = Records.ColumnAt(i+1).StringValue
 		      
 		    Next
 		    
 		    // Add the JSON record to the JSON records object.
-		    RecordsJSON.Append(RecordJSON)
+		    RecordsJSON.Add(RecordJSON)
 		    
 		    // Go to the next row.
-		    Records.MoveNext
+		    Records.MoveToNextRow
 		    
 		  Wend
 		  
@@ -956,6 +958,25 @@ Protected Module AloeExpress
 		  Dim StringValue As String = CS
 		  
 		  Return StringValue
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function ToString(extends s as SSLSocket.SSLConnectionTypes) As String
+		  Dim output As String
+		  Select Case s
+		  Case SSLSocket.SSLConnectionTypes.SSLv23
+		    output = "SSL version 3"
+		  Case SSLSocket.SSLConnectionTypes.TLSv1
+		    output = "TLS version 1" 
+		  Case SSLSocket.SSLConnectionTypes.TLSv11
+		    output = "TLS version 1.1"
+		  Case SSLSocket.SSLConnectionTypes.TLSv12
+		    output = "TLS version 1.2"
+		  Else
+		    Raise New Xojo.Core.BadDataException
+		  End Select
+		  Return output
 		End Function
 	#tag EndMethod
 
@@ -999,11 +1020,14 @@ Protected Module AloeExpress
 		  + "|| substr(hex(randomblob(2)), 2) " _
 		  + "|| '-' || hex(randomblob(6)) AS GUID"
 		  
-		  If db.Connect Then
-		    Dim GUID As String = db.SQLSelect(SQL_Instruction).Field("GUID")
+		  Try
+		    db.Connect
+		    Dim GUID As String = db.SelectSQL(SQL_Instruction).Column("GUID")
 		    db.Close
 		    Return  GUID
-		  End If
+		  Catch error As DatabaseException
+		    Print( "SQLite Error: " + error.Message )
+		  End Try
 		End Function
 	#tag EndMethod
 

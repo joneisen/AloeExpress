@@ -31,20 +31,20 @@ Protected Module DemoServerThreads
 		  // Create AloeExpress ServerThread instances with servers listening on port 64000, 64001, etc.
 		  Dim ServerThread1 As New AloeExpress.ServerThread
 		  ServerThread1.Server.Port = 64000
-		  ServerThread1.Run
+		  ServerThread1.Start
 		  
 		  Dim ServerThread2 As New AloeExpress.ServerThread
 		  ServerThread2.Server.Port = 64001
 		  ServerThread2.Server.SessionsEnabled = True
-		  ServerThread2.Run
+		  ServerThread2.Start
 		  
 		  Dim ServerThread3 As New AloeExpress.ServerThread
 		  ServerThread3.Server.Port = 64002
-		  ServerThread3.Run
+		  ServerThread3.Start
 		  
 		  Dim ServerThread4 As New AloeExpress.ServerThread
 		  ServerThread4.Server.Port = 64003
-		  ServerThread4.Run
+		  ServerThread4.Start
 		  
 		  While True
 		    app.DoEvents

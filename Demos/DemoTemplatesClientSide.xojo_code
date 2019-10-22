@@ -1,11 +1,11 @@
 #tag Module
 Protected Module DemoTemplatesClientSide
-	#tag CompatibilityFlags = (TargetConsole and (Target32Bit or Target64Bit)) or  (TargetWeb and (Target32Bit or Target64Bit)) or  (TargetDesktop and (Target32Bit or Target64Bit)) or  (TargetIOS and (Target32Bit or Target64Bit))
+	#tag CompatibilityFlags = ( TargetConsole and ( Target32Bit or Target64Bit ) ) or ( TargetWeb and ( Target32Bit or Target64Bit ) ) or ( TargetDesktop and ( Target32Bit or Target64Bit ) ) or ( TargetIOS and ( Target32Bit or Target64Bit ) )
 	#tag Method, Flags = &h0
 		Sub RequestProcess(Request As AloeExpress.Request)
 		  // By default, the Request.StaticPath points to an "htdocs" folder.
 		  // In this example, we're using an alternate folder.
-		  Request.StaticPath = GetFolderItem("").Parent.Child("htdocs").Child("demo-templates-client-side")
+		  Request.StaticPath = App.ExecutableFile.Parent.Parent.Child("htdocs").Child("demo-templates-client-side")
 		  
 		  // Process the request based on the path of the requested resource...
 		  If Request.Path = "/data" Then
@@ -53,26 +53,27 @@ Protected Module DemoTemplatesClientSide
 		Function SystemDataGet(Request As AloeExpress.Request) As JSONItem
 		  // Add the Date object.
 		  Dim DateData As New JSONItem
-		  Dim Today As New Date
-		  DateData.Value("abbreviateddate") = Today.AbbreviatedDate
-		  DateData.Value("day") = AloeExpress.TextToString(Today.Day.ToText)
-		  DateData.Value("dayofweek") = AloeExpress.TextToString(Today.DayOfWeek.ToText)
-		  DateData.Value("dayofyear") = AloeExpress.TextToString(Today.DayOfYear.ToText)
-		  DateData.Value("gmtoffset") = AloeExpress.TextToString(Today.GMTOffset.ToText)
-		  DateData.Value("hour") = AloeExpress.TextToString(Today.Hour.ToText)
-		  DateData.Value("longdate") = Today.LongDate
-		  DateData.Value("longtime") = Today.LongTime
-		  DateData.Value("minute") = AloeExpress.TextToString(Today.Minute.ToText)
-		  DateData.Value("month") = AloeExpress.TextToString(Today.Month.ToText)
-		  DateData.Value("second") = AloeExpress.TextToString(Today.Second.ToText)
-		  DateData.Value("shortdate") = Today.ShortDate
-		  DateData.Value("shorttime") = Today.ShortTime
+		  Dim Today As DateTime = DateTime.Now
+		  DateData.Value("abbreviateddate") = Today.ToString( Nil, DateTime.FormatStyles.Medium, DateTime.FormatStyles.None )
+		  DateData.Value("day") = Today.Day.ToString
+		  DateData.Value("dayofweek") = Today.DayOfWeek.ToString
+		  DateData.Value("dayofyear") = Today.DayOfYear.ToString
+		  Dim GMTOffset As Double = Today.Timezone.SecondsFromGMT / 3600 //3600 seconds in an hour
+		  DateData.Value("gmtoffset") = GMTOffset.ToString
+		  DateData.Value("hour") = Today.Hour.ToString
+		  DateData.Value("longdate") = Today.ToString( Nil, DateTime.FormatStyles.Long, DateTime.FormatStyles.None )
+		  DateData.Value("longtime") = Today.ToString( Nil, DateTime.FormatStyles.None, DateTime.FormatStyles.Medium ) // This is the closest equivalent to the old code. We might have to trip the AM and PM off the end
+		  DateData.Value("minute") = Today.Minute.ToString
+		  DateData.Value("month") = Today.Month.ToString
+		  DateData.Value("second") = Today.Second.ToString
+		  DateData.Value("shortdate") = Today.ToString( Nil, DateTime.FormatStyles.Short, DateTime.FormatStyles.None )
+		  DateData.Value("shorttime") = Today.ToString( Nil, DateTime.FormatStyles.None, DateTime.FormatStyles.Short )
 		  DateData.Value("sql") = Today.SQLDate
 		  DateData.Value("sqldate") = Today.SQLDate
 		  DateData.Value("sqldatetime") = Today.SQLDateTime
-		  DateData.Value("totalseconds") = AloeExpress.TextToString(Today.TotalSeconds.ToText)
-		  DateData.Value("weekofyear") = AloeExpress.TextToString(Today.WeekOfYear.ToText)
-		  DateData.Value("year") = AloeExpress.TextToString(Today.Year.ToText)
+		  DateData.Value("SecondsFrom1970") = Today.SecondsFrom1970
+		  DateData.Value("weekofyear") = Today.WeekOfYear.ToString
+		  DateData.Value("year") = Today.Year.ToString
 		  
 		  // Add the Meta object.
 		  Dim MetaData As New JSONItem
@@ -89,7 +90,7 @@ Protected Module DemoTemplatesClientSide
 		  RequestData.Value("path") = Request.Path
 		  RequestData.Value("post") = DictionaryToJSONItem(Request.POST)
 		  RequestData.Value("remoteaddress") = Request.RemoteAddress
-		  RequestData.Value("socketid") = AloeExpress.TextToString(Request.SocketID.ToText)
+		  RequestData.Value("socketid") = Request.SocketID.ToString
 		  RequestData.Value("urlparams") = Request.URLParams
 		  
 		  // Create the system object.

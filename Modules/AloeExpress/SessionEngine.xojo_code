@@ -1,10 +1,11 @@
 #tag Class
 Protected Class SessionEngine
 Inherits Timer
-	#tag CompatibilityFlags = (TargetConsole and (Target32Bit or Target64Bit)) or  (TargetWeb and (Target32Bit or Target64Bit)) or  (TargetDesktop and (Target32Bit or Target64Bit)) or  (TargetIOS and (Target32Bit or Target64Bit))
+	#tag CompatibilityFlags = ( TargetConsole and ( Target32Bit or Target64Bit ) ) or ( TargetWeb and ( Target32Bit or Target64Bit ) ) or ( TargetDesktop and ( Target32Bit or Target64Bit ) ) or ( TargetIOS and ( Target32Bit or Target64Bit ) )
 	#tag Event
-		Sub Action()
+		Sub Run()
 		  SessionsSweep
+		  
 		End Sub
 	#tag EndEvent
 
@@ -19,7 +20,7 @@ Inherits Timer
 		  
 		  // Schedule the SessionSweep process.
 		  Period = SweepIntervalSecs * 1000
-		  Mode = Timer.ModeMultiple
+		  RunMode = timer.RunModes.Multiple
 		  
 		  
 		  
@@ -51,7 +52,7 @@ Inherits Timer
 		  
 		  
 		  // Get the current date/time.
-		  Dim Now As New Date
+		  Dim Now As DateTime = DateTime.Now
 		  
 		  
 		  // Get the original Session ID, if applicable.
@@ -68,10 +69,10 @@ Inherits Timer
 		      Session = Sessions.Value(OriginalSessionID)
 		      
 		      // Get the session's LastRequestTimestamp.
-		      Dim LastRequestTimestamp As Date = Session.Value("LastRequestTimestamp")
+		      Dim LastRequestTimestamp As New DateTime( Session.Value("LastRequestTimestamp").DateTimeValue )
 		      
 		      // Determine the time that has elapsed since the last request.
-		      Dim TimeElapsed As Double = Now.TotalSeconds - LastRequestTimestamp.TotalSeconds
+		      Dim TimeElapsed As Double = Now.SecondsFrom1970 - LastRequestTimestamp.SecondsFrom1970
 		      
 		      // If the session has expired...
 		      If TimeElapsed > SessionsTimeOutSecs Then
@@ -144,8 +145,9 @@ Inherits Timer
 		  
 		  
 		  // Set the cookie expiration date.
-		  Dim CookieExpiration As New Date
-		  CookieExpiration.Second = CookieExpiration.Second + SessionsTimeOutSecs
+		  Dim CookieExpiration As DateTime = DateTime.Now
+		  //years, months, days, hours, minutes, seconds
+		  CookieExpiration = CookieExpiration.AddInterval( 0, 0, 0, 0, 0, SessionsTimeOutSecs )
 		  
 		  
 		  // Drop the SessionID cookie.
@@ -169,7 +171,7 @@ Inherits Timer
 		  
 		  
 		  // Get the current date/time.
-		  Dim Now As New Date
+		  Dim Now As DateTime = DateTime.Now
 		  
 		  // This is an array of the session IDs that have expired.
 		  Dim ExpiredSessionIDs() As String
@@ -181,16 +183,16 @@ Inherits Timer
 		    Dim Session As Dictionary = Sessions.Value(Key)
 		    
 		    // Get the session's LastRequestTimestamp.
-		    Dim LastRequestTimestamp As Date = Session.Value("LastRequestTimestamp")
+		    Dim LastRequestTimestamp As DateTime = Session.Value("LastRequestTimestamp")
 		    
 		    // Determine the time that has elapsed since the last request.
-		    Dim TimeElapsedSecs As Double = Now.TotalSeconds - LastRequestTimestamp.TotalSeconds
+		    Dim TimeElapsedSecs As Double = Now.SecondsFrom1970 - LastRequestTimestamp.SecondsFrom1970
 		    
 		    // If the session has expired...
 		    If TimeElapsedSecs > SessionsTimeOutSecs Then
 		      
 		      // Append the session's key to the array.
-		      ExpiredSessionIDs.Append(Key)
+		      ExpiredSessionIDs.AddRow(Key)
 		      
 		    End If
 		    

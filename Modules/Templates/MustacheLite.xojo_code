@@ -91,19 +91,19 @@ Protected Class MustacheLite
 		        Dim TokenEnd As String = "{{/" + If(KeyPrefix <> "", KeyPrefix + ".", "") + Key + "}}"
 		        
 		        // Get the start position of the beginning token.
-		        Dim StartPosition As Integer = Source.InStr(0, TokenBegin) 
+		        Dim StartPosition As Integer = Source.IndexOf(0, TokenBegin) 
 		        
 		        // Get the position of the ending token.
-		        Dim StopPosition As Integer = Source.InStr(StartPosition, TokenEnd)
+		        Dim StopPosition As Integer = Source.IndexOf(StartPosition, TokenEnd)
 		        
 		        // If the template does not include both the beginning and ending tokens...
-		        If ( (StartPosition = 0) or (StopPosition = 0) ) Then
+		        If ( (StartPosition = -1) Or (StopPosition = -1) ) Then
 		          // We do not need to merge the array.
 		          Continue
 		        End If
 		        
 		        // Get the content between the beginning and ending tokens.
-		        Dim LoopSource As String = Mid(Source, StartPosition + TokenBegin.Len, StopPosition - StartPosition - TokenBegin.Len)
+		        Dim LoopSource As String = Source.Middle( StartPosition + TokenBegin.Length, StopPosition - StartPosition - TokenBegin.Length)
 		        
 		        // LoopContent is the content created by looping over the array and merging each value.
 		        Dim LoopContent As String
@@ -111,7 +111,7 @@ Protected Class MustacheLite
 		        // Loop over the array elements...
 		        For i As Integer = 0 to NestedJSON.Count - 1
 		          
-		          Dim ArrayValue As Variant = NestedJSON.Value(i)
+		          Dim ArrayValue As Variant = NestedJSON.ValueAt(i)
 		          
 		          // Process the value using another instance of Template. 
 		          Dim Engine As New MustacheLite
@@ -167,26 +167,27 @@ Protected Class MustacheLite
 		  
 		  // Add the Date object.
 		  Dim DateData As New JSONItem
-		  Dim Today As New Date
-		  DateData.Value("abbreviateddate") = Today.AbbreviatedDate
-		  DateData.Value("day") = Today.Day.ToText
-		  DateData.Value("dayofweek") = Today.DayOfWeek.ToText
-		  DateData.Value("dayofyear") = Today.DayOfYear.ToText
-		  DateData.Value("gmtoffset") = Today.GMTOffset
-		  DateData.Value("hour") = Today.Hour.ToText
-		  DateData.Value("longdate") = Today.LongDate
-		  DateData.Value("longtime") = Today.LongTime
-		  DateData.Value("minute") = Today.Minute.ToText
-		  DateData.Value("month") = Today.Month.ToText
-		  DateData.Value("second") = Today.Second.ToText
-		  DateData.Value("shortdate") = Today.ShortDate
-		  DateData.Value("shorttime") = Today.ShortTime
+		  Dim Today As DateTime = DateTime.Now
+		  DateData.Value("abbreviateddate") = Today.ToString( Nil, DateTime.FormatStyles.Medium, DateTime.FormatStyles.None )
+		  DateData.Value("day") = Today.Day.ToString
+		  DateData.Value("dayofweek") = Today.DayOfWeek.ToString
+		  DateData.Value("dayofyear") = Today.DayOfYear.ToString
+		  Dim GMTOffset As Double = Today.Timezone.SecondsFromGMT / 3600 //3600 seconds in an hour
+		  DateData.Value("gmtoffset") = GMTOffset.ToString
+		  DateData.Value("hour") = Today.Hour.ToString
+		  DateData.Value("longdate") = Today.ToString( Nil, DateTime.FormatStyles.Long, DateTime.FormatStyles.None )
+		  DateData.Value("longtime") = Today.ToString( Nil, DateTime.FormatStyles.None, DateTime.FormatStyles.Medium ) // This is the closest equivalent to the old code. We might have to trip the AM and PM off the end
+		  DateData.Value("minute") = Today.Minute.ToString
+		  DateData.Value("month") = Today.Month.ToString
+		  DateData.Value("second") = Today.Second.ToString
+		  DateData.Value("shortdate") = Today.ToString( Nil, DateTime.FormatStyles.Short, DateTime.FormatStyles.None )
+		  DateData.Value("shorttime") = Today.ToString( Nil, DateTime.FormatStyles.None, DateTime.FormatStyles.Short )
 		  DateData.Value("sql") = Today.SQLDate
 		  DateData.Value("sqldate") = Today.SQLDate
 		  DateData.Value("sqldatetime") = Today.SQLDateTime
-		  DateData.Value("totalseconds") = Today.TotalSeconds
-		  DateData.Value("weekofyear") = Today.WeekOfYear.ToText
-		  DateData.Value("year") = Today.Year.ToText
+		  DateData.Value("SecondsFrom1970") = Today.SecondsFrom1970
+		  DateData.Value("weekofyear") = Today.WeekOfYear.ToString
+		  DateData.Value("year") = Today.Year.ToString
 		  SystemData.Value("date") = DateData
 		  
 		  // Add the Meta object.

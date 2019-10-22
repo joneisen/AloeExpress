@@ -4,14 +4,14 @@ Protected Class Login
 	#tag Method, Flags = &h0
 		Sub BodyContentGenerate()
 		  // If the form has been submitted and validation errors were found...
-		  If ValidationErrors.Ubound > -1 Then
+		  If ValidationErrors.LastRowIndex > -1 Then
 		    
 		    // We'll include information about the errors.
 		    BodyContent = ErrorsIntro
 		    
 		    // Build the list of errors...
 		    Dim ErrorsList As String
-		    For i As integer = 0 to ValidationErrors.Ubound
+		    For i As integer = 0 to ValidationErrors.LastRowIndex
 		      ErrorsList = ErrorsList _
 		      + "<li>" + ValidationErrors(i) + "</li>" + EndOfLine
 		    Next
@@ -45,7 +45,7 @@ Protected Class Login
 		    FormValidate
 		    
 		    // If no validation errors were found...
-		    If ValidationErrors.Ubound = -1 Then
+		    If ValidationErrors.LastRowIndex = -1 Then
 		      
 		      // Try to authenticate the user.
 		      UserAuthenticate
@@ -79,12 +79,12 @@ Protected Class Login
 		  
 		  Dim Username As String = Request.POST.Lookup("username", "")
 		  If Username = "" Then
-		    ValidationErrors.Append("You did not enter your username.")
+		    ValidationErrors.AddRow("You did not enter your username.")
 		  End If
 		  
 		  Dim Password As String = Request.POST.Lookup("password", "")
 		  If Password = "" Then
-		    ValidationErrors.Append("You did not enter your password.")
+		    ValidationErrors.AddRow("You did not enter your password.")
 		  End If
 		End Sub
 	#tag EndMethod
@@ -129,7 +129,7 @@ Protected Class Login
 		  // If the password was incorrect...
 		  Dim Password As String = Request.POST.Lookup("password", "")
 		  If Password <> "secret" Then
-		    ValidationErrors.Append("The password that you provided is incorrect.")
+		    ValidationErrors.AddRow("The password that you provided is incorrect.")
 		    Return
 		  End
 		  

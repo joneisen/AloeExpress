@@ -2,12 +2,13 @@
 Protected Class ConnectionSweeper
 Inherits Timer
 	#tag Event
-		Sub Action()
+		Sub Run()
 		  // Closes any HTTP connections that have timed out.
 		  HTTPConnSweep
 		  
 		  // Closes any WebSocket connections that have timed out.
 		  WSConnSweep
+		  
 		End Sub
 	#tag EndEvent
 
@@ -19,7 +20,7 @@ Inherits Timer
 		  
 		  // Schedule the Sweep process.
 		  Period = Server.ConnSweepIntervalSecs * 1000
-		  Mode = Timer.ModeMultiple
+		  RunMode = Timer.RunModes.Multiple
 		End Sub
 	#tag EndMethod
 
@@ -47,13 +48,14 @@ Inherits Timer
 		    End If
 		    
 		    // Get the current date/time.
-		    Dim Now As New Date
+		    Dim Now As DateTime = DateTime.Now
 		    
 		    // Get the socket's last connection timestamp.
-		    Dim Timeout As Date = Socket.LastConnect
+		    Dim Timeout As DateTime = Socket.LastConnect
 		    
 		    // Determine when the connection will timeout due to inactivity.
-		    Timeout.Second = Timeout.Second + Server.KeepAliveTimeout
+		    //years, months, days, hours, minutes, seconds
+		    Timeout = Timeout.AddInterval(  0, 0, 0, 0, 0,  Server.KeepAliveTimeout )
 		    
 		    // If the socket's keep-alive has timed out...
 		    If Now > Timeout Then
@@ -80,19 +82,20 @@ Inherits Timer
 		  End If
 		  
 		  // Loop over the server's WebSockets...
-		  For i As Integer = Server.WebSockets.Ubound DownTo 0
+		  For i As Integer = Server.WebSockets.LastRowIndex DownTo 0
 		    
 		    // Get the socket.
 		    Dim Socket As AloeExpress.Request = Server.WebSockets(i)
 		    
 		    // Get the current date/time.
-		    Dim Now As New Date
+		    Dim Now As DateTime = DateTime.Now
 		    
 		    // Get the socket's last connection timestamp.
-		    Dim Timeout As Date = Socket.LastConnect
+		    Dim Timeout As DateTime = Socket.LastConnect
 		    
 		    // Determine when the connection will timeout due to inactivity.
-		    Timeout.Second = Timeout.Second + Server.WSTimeout
+		    //years, months, days, hours, minutes, seconds
+		    Timeout = Timeout.AddInterval( 0, 0, 0, 0, 0, Server.WSTimeout )
 		    
 		    // If the socket has timed out...
 		    If Now > Timeout Then
@@ -107,7 +110,7 @@ Inherits Timer
 		      Socket.Close
 		      
 		      // Remove the socket from the array.
-		      Server.WebSockets.Remove(i)
+		      Server.WebSockets.RemoveRowAt(i)
 		      
 		    End If
 		    

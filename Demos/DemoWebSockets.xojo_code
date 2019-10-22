@@ -1,17 +1,18 @@
 #tag Module
 Protected Module DemoWebSockets
-	#tag CompatibilityFlags = (TargetConsole and (Target32Bit or Target64Bit)) or  (TargetWeb and (Target32Bit or Target64Bit)) or  (TargetDesktop and (Target32Bit or Target64Bit)) or  (TargetIOS and (Target32Bit or Target64Bit))
+	#tag CompatibilityFlags = ( TargetConsole and ( Target32Bit or Target64Bit ) ) or ( TargetWeb and ( Target32Bit or Target64Bit ) ) or ( TargetDesktop and ( Target32Bit or Target64Bit ) ) or ( TargetIOS and ( Target32Bit or Target64Bit ) )
 	#tag Method, Flags = &h0
 		Sub RequestProcess(Request As AloeExpress.Request)
 		  // By default, the Request.StaticPath points to an "htdocs" folder.
 		  // In this example, we're using an alternate folder.
-		  Request.StaticPath = GetFolderItem("").Parent.Child("htdocs").Child("demo-websockets")
+		  Request.StaticPath = App.ExecutableFile.Parent.Parent.Child("htdocs").Child("demo-websockets")
 		  
 		  // If the request was for the "/chat" path...
 		  If Request.Path = "/chat" Then
 		    
 		    // Hand the request off to an instance of the Chat class.
 		    Dim Chat As New Chat(Request)
+		    #Pragma Unused Chat
 		    
 		  Else
 		    

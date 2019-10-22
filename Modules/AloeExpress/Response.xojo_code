@@ -31,7 +31,7 @@ Protected Class Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub CookieSet(Name As String, Value As String, Expiration As Date = Nil, Domain As String = "", Path As String = "/", Secure As Boolean = False, HttpOnly As Boolean = False)
+		Sub CookieSet(Name As String, Value As String, Expiration As DateTime = Nil, Domain As String = "", Path As String = "/", Secure As Boolean = False, HttpOnly As Boolean = False)
 		  // Adds a cookie to the dictionary.
 		  
 		  
@@ -59,11 +59,9 @@ Protected Class Response
 		  // Adds a cookie to the dictionary.
 		  
 		  // Create the cookie's expiration date.
-		  Dim ExpirationDate As New Date
-		  ExpirationDate.Day = ExpirationDate.Day + ExpirationDays
-		  ExpirationDate.Hour = ExpirationDate.Hour + ExpirationHours
-		  ExpirationDate.Minute = ExpirationDate.Minute + ExpirationMinutes
-		  ExpirationDate.Second = ExpirationDate.Second + ExpirationSeconds
+		  Dim ExpirationDate As DateTime = DateTime.Now
+		  //years, months, days, hours, minutes, seconds
+		  ExpirationDate = ExpirationDate.AddInterval( 0, 0, ExpirationDate.Day + ExpirationDays, ExpirationDate.Hour + ExpirationHours, ExpirationDate.Minute + ExpirationMinutes, ExpirationDate.Second + ExpirationSeconds )
 		  
 		  
 		  // Create a dictionary for the cookie's settings.
@@ -188,7 +186,7 @@ Protected Class Response
 		    Headers.Value("X-Last-Connect") = Request.LastConnect.SQLDateTime
 		    Headers.Value("X-Socket-ID") = Request.SocketID
 		    Headers.Value("X-Xojo-Version") = XojoVersionString
-		    Headers.Value("X-Server-Active-Conns") = Integer(Request.Server.ActiveConnections.Ubound + 1).ToText
+		    Headers.Value("X-Server-Active-Conns") = Request.Server.ActiveConnections.Count.ToText
 		    Headers.Value("X-Server-Port") = Request.Server.Port
 		  #Endif
 		  
@@ -211,7 +209,7 @@ Protected Class Response
 		  RH = "HTTP/" + HTTPVersion + " " + Status + EndOfLine.Windows
 		  
 		  // Specify the content length.
-		  Headers.Value("Content-Length") = Content.LenB.ToText
+		  Headers.Value("Content-Length") = Content.Bytes.ToText
 		  
 		  // Loop over the dictionary entries...
 		  For Each Key As Variant in Headers.Keys

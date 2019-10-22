@@ -2,7 +2,14 @@
 Protected Class Server
 Inherits ServerSocket
 	#tag Event
-		Function AddSocket() As TCPSocket
+		Sub Error(ErrorCode As Integer, err As RuntimeException)
+		  #Pragma Unused err
+		  System.DebugLog "Aloe Express Server Error: Code: " + ErrorCode.ToText
+		End Sub
+	#tag EndEvent
+
+	#tag Event
+		Function SocketRequested() As TCPSocket
 		  // Tries to add a socket to the pool.
 		  Try
 		    
@@ -14,7 +21,7 @@ Inherits ServerSocket
 		    NewSocket.SocketID = CurrentSocketID
 		    
 		    // Append the socket to the array.
-		    Sockets.Append(NewSocket)
+		    Sockets.AddRow(NewSocket)
 		    
 		    // Return the socket.
 		    Return NewSocket
@@ -22,18 +29,14 @@ Inherits ServerSocket
 		  Catch e As RunTimeException
 		    
 		    Dim TypeInfo As Xojo.Introspection.TypeInfo = Xojo.Introspection.GetType(e)
+		    #Pragma Unused TypeInfo
 		    
 		    System.DebugLog "Aloe Express Server Error: Unable to Add Socket w/ID " + CurrentSocketID.ToText
 		    
 		  End Try
 		  
+		  
 		End Function
-	#tag EndEvent
-
-	#tag Event
-		Sub Error(ErrorCode As Integer, err As RuntimeException)
-		  System.DebugLog "Aloe Express Server Error: Code: " + ErrorCode.ToText
-		End Sub
 	#tag EndEvent
 
 
@@ -44,8 +47,8 @@ Inherits ServerSocket
 		  MaximumSocketsConnected = 200
 		  MinimumSocketsAvailable = 50
 		  Secure = False
-		  ConnectionType = SSLSocket.TLSv12
-		  CertificateFile = GetFolderItem("").Parent.Child("certificates").Child("default-certificate.crt")
+		  ConnectionType = SSLSocket.SSLConnectionTypes.TLSv12
+		  CertificateFile = App.ExecutableFile.Parent.Parent.Child("certificates").Child("default-certificate.crt")
 		  CertificatePassword = ""
 		  KeepAlive = True
 		  
@@ -80,11 +83,11 @@ Inherits ServerSocket
 		    End If
 		    
 		    If Arguments.HasKey("--ConnectionType") Then 
-		      ConnectionType = Val(Arguments.Value("--ConnectionType"))
+		      ConnectionType = Arguments.Value("--ConnectionType")
 		    End If
 		    
 		    If Arguments.HasKey("--CertificateFile") Then 
-		      CertificateFile = New FolderItem(Arguments.Value("--CertificateFile"), 1)
+		      CertificateFile = New FolderItem(Arguments.Value("--CertificateFile"), FolderItem.PathModes.Shell)
 		    End If
 		    
 		    If Arguments.HasKey("--CertificatePassword") Then 
@@ -127,7 +130,7 @@ Inherits ServerSocket
 		  + "• Sessions Sweep Interval: " + SessionsSweepIntervalSecs.ToText + " seconds" + EndOfLine _
 		  + "• SSL: " + If(Secure , "Enabled", "Disabled") + EndOfLine _
 		  + If(Secure , "• SSL Certificate Path: " + CertificateFile.NativePath + EndOfLine, "") _
-		  + If(Secure , "• SSL Connection Type: " + ConnectionType.ToText  + EndOfLine, "") _
+		  + If(Secure , "• SSL Connection Type: " + ConnectionType.ToString  + EndOfLine, "") _
 		  + "• WebSocket Timeout: " + WSTimeout.ToText + " seconds" + EndOfLine _
 		  + EndOfLine + EndOfLine
 		  
@@ -147,6 +150,7 @@ Inherits ServerSocket
 		  
 		  // Create a ConnectionSweeper timer object for this server.
 		  Dim Sweeper As New ConnectionSweeper(Self)
+		  #Pragma Unused Sweeper
 		  
 		  // If caching is enabled...
 		  If CachingEnabled Then
@@ -224,7 +228,7 @@ Inherits ServerSocket
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		ConnectionType As Integer
+		ConnectionType As SSLSocket.SSLConnectionTypes
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -382,8 +386,14 @@ Inherits ServerSocket
 			Visible=false
 			Group="Behavior"
 			InitialValue=""
-			Type="Integer"
-			EditorType=""
+			Type="SSLSocket.SSLConnectionTypes"
+			EditorType="Enum"
+			#tag EnumValues
+				"2 - SSLv23"
+				"3 - TLSv1"
+				"4 - TLSv11"
+				"5 - TLSv12"
+			#tag EndEnumValues
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="CertificatePassword"

@@ -2,9 +2,10 @@
 Protected Class CacheEngine
 Inherits Timer
 	#tag Event
-		Sub Action()
+		Sub Run()
 		  // Removes expired entries from the cache.
 		  Sweep
+		  
 		End Sub
 	#tag EndEvent
 
@@ -19,7 +20,7 @@ Inherits Timer
 		  
 		  // Schedule the CacheSweep process.
 		  Period = SweepIntervalSecs * 1000
-		  Mode = Timer.ModeMultiple
+		  RunMode = Timer.RunModes.Multiple
 		  
 		  
 		  
@@ -65,10 +66,10 @@ Inherits Timer
 		    Dim CacheEntry As Dictionary = Cache.Value(Name)
 		    
 		    // Get the cache's expiration date.
-		    Dim Expiration As Date = CacheEntry.Value("Expiration")
+		    Dim Expiration As DateTime = CacheEntry.Value("Expiration")
 		    
 		    // Get the current date.
-		    Dim Now As New Date
+		    Dim Now As DateTime = DateTime.Now
 		    
 		    // If the cache has not expired...
 		    If Expiration > Now Then
@@ -103,11 +104,12 @@ Inherits Timer
 		  
 		  
 		  // Create the expiration date/time.
-		  Dim Expiration As New Date
-		  Expiration.Second = Expiration.Second + ExpirationSecs
+		  Dim Expiration As DateTime = DateTime.Now
+		  //years, months, days, hours, minutes, seconds
+		  Expiration = Expiration.AddInterval( 0, 0, 0, 0, 0, ExpirationSecs )
 		  
 		  // Get the current date/time.
-		  Dim Now As New Date
+		  Dim Now As DateTime = DateTime.Now
 		  
 		  // Create the cache entry.
 		  Dim CacheEntry As New Dictionary
@@ -147,7 +149,7 @@ Inherits Timer
 		  
 		  
 		  // Get the current date/time.
-		  Dim Now As New Date
+		  Dim Now As DateTime = DateTime.Now
 		  
 		  // This is an array of the cache names that have expired.
 		  Dim ExpiredCacheNames() As String
@@ -159,13 +161,13 @@ Inherits Timer
 		    Dim CacheEntry As Dictionary = Cache.Value(Key)
 		    
 		    // Set the expiration date.
-		    Dim Expiration As Date = CacheEntry.Value("Expiration")
+		    Dim Expiration As DateTime = CacheEntry.Value("Expiration")
 		    
 		    // If the session has expired...
 		    If Now > Expiration Then
 		      
 		      // Append the cache name to the array.
-		      ExpiredCacheNames.Append(Key)
+		      ExpiredCacheNames.AddRow(Key)
 		      
 		    End If
 		    

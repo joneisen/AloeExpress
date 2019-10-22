@@ -5,7 +5,7 @@ Protected Module DemoLogging
 		Sub RequestProcess(Request As AloeExpress.Request)
 		  // By default, the Request.StaticPath points to an "htdocs" folder.
 		  // In this example, we're using an alternate folder.
-		  Request.StaticPath = GetFolderItem("").Parent.Child("htdocs").Child("demo-logging")
+		  Request.StaticPath = App.ExecutableFile.Parent.Parent.Child("htdocs").Child("demo-logging")
 		  
 		  // Map the request to a file.
 		  Request.MapToFile
@@ -26,9 +26,9 @@ Protected Module DemoLogging
 		  
 		  // Log the request.
 		  Dim Logger As New AloeExpress.Logger
-		  Logger.Folder = GetFolderItem("").Parent.Child("logs")
+		  Logger.Folder = App.ExecutableFile.Parent.Parent.Child("logs")
 		  Logger.Request = Request
-		  Logger.Run
+		  Logger.Start
 		End Sub
 	#tag EndMethod
 

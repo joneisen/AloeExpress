@@ -5,7 +5,7 @@ Protected Module DemoTemplatesServerSide
 		Sub RequestProcess(Request As AloeExpress.Request)
 		  // By default, the Request.StaticPath points to an "htdocs" folder.
 		  // In this example, we're using an alternate folder.
-		  Request.StaticPath = GetFolderItem("").Parent.Child("htdocs").Child("demo-templates-server-side")
+		  Request.StaticPath = App.ExecutableFile.Parent.Parent.Child("htdocs").Child("demo-templates-server-side")
 		  
 		  // Process the request based on the path of the requested resource...
 		  If Request.Path = "/" or Request.Path = "/index.html" Then
