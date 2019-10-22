@@ -913,7 +913,7 @@ Protected Module AloeExpress
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function RecordSetToJSONItem(Records As RowSet, Close As Boolean = True) As JSONItem
+		Function RowSetToJSONItem(Records As RowSet, Close As Boolean = True) As JSONItem
 		  // Converts a recordset to JSONItem.
 		  
 		  
@@ -928,7 +928,7 @@ Protected Module AloeExpress
 		    For i As Integer = 0 To Records.ColumnCount-1
 		      
 		      // Add a name / value pair to the JSON record.
-		      RecordJSON.Value( Records.ColumnAt(i+1).Name ) = Records.ColumnAt(i+1).StringValue
+		      RecordJSON.Value( Records.ColumnAt(i).Name ) = Records.ColumnAt(i).StringValue
 		      
 		    Next
 		    
