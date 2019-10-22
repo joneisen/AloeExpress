@@ -39,7 +39,7 @@ Protected Class FormProcessor
 		  FilesInfoJSON = New JSONItem
 		  
 		  // If the form included files...
-		  If Request.Files.Keys.Ubound > -1 Then
+		  If Request.Files.Keys.LastRowIndex > -1 Then
 		    
 		    // Process files that were uploaded...
 		    For Each FileFieldName As String In Request.Files.Keys
@@ -88,7 +88,7 @@ Protected Class FormProcessor
 		      End If
 		      
 		      // Append this file's info tp the FilesInfoJSON object.
-		      FilesInfoJSON.Append(FileInfo)
+		      FilesInfoJSON.Add(FileInfo)
 		      
 		    Next
 		    
