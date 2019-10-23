@@ -1033,7 +1033,7 @@ Protected Module AloeExpress
 
 	#tag Method, Flags = &h0
 		Function VersionString() As String
-		  Return "4.2.0"
+		  Return "4.2.1"
 		End Function
 	#tag EndMethod
 
