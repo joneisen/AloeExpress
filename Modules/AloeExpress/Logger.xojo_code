@@ -13,7 +13,6 @@ Inherits Thread
 		Sub Constructor()
 		  // Set the default log folder.
 		  Folder = App.ExecutableFile.Parent.Parent.Child( "logs" )
-		  //Folder = GetFolderItem("").Parent.Child("logs")
 		End Sub
 	#tag EndMethod
 
@@ -44,6 +43,9 @@ Inherits Thread
 		  
 		  // If no IP address has been specified, use the default remote IP address.
 		  IPAddress = If(IPAddress = "", Request.RemoteAddress, IPAddress)
+		  
+		  //Set up logs folder
+		  SetUpLogsFolder
 		  
 		  // Create the log file name using the formatted date.
 		  Dim LogFileName As String = DateFormatted + ".log"
@@ -95,6 +97,15 @@ Inherits Thread
 		    // Close the stream.
 		    TOS.Close
 		    
+		  End If
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub SetUpLogsFolder()
+		  // Set up logs folder
+		  If Not Folder.Exists Then
+		    ftest.CreateAsFolder
 		  End If
 		End Sub
 	#tag EndMethod
