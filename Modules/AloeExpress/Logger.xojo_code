@@ -105,7 +105,7 @@ Inherits Thread
 		Private Sub SetUpLogsFolder()
 		  // Set up logs folder
 		  If Not Folder.Exists Then
-		    ftest.CreateAsFolder
+		    Folder.CreateAsFolder
 		  End If
 		End Sub
 	#tag EndMethod
