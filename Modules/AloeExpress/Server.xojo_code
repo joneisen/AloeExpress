@@ -98,6 +98,19 @@ Inherits ServerSocket
 		      KeepAlive = False
 		    End If
 		    
+		    //Check for VerboseLogging argument
+		    If Arguments.HasKey("--VerboseLogging") Then
+		      Dim level As String = Arguments.Value("--VerboseLogging")
+		      //If a value has been passed, assign it otherwise we have a default value for the parameter of Debug
+		      //You can call "--VerboseLogging" and get LogLevel.Debug or pass a parameter such as critical to the argument "--VerboseLogging=Critical"
+		      If level <> "" Then
+		        MinimumLogLevel.StringValue = level
+		      Else
+		        MinimumLogLevel = LogLevel.Debug
+		      End If
+		      
+		    End If
+		    
 		  End If
 		  
 		  // Initlialize the Custom dictionary.
@@ -132,9 +145,17 @@ Inherits ServerSocket
 		  + If(Secure , "• SSL Certificate Path: " + CertificateFile.NativePath + EndOfLine, "") _
 		  + If(Secure , "• SSL Connection Type: " + ConnectionType.ToString  + EndOfLine, "") _
 		  + "• WebSocket Timeout: " + WSTimeout.ToText + " seconds" + EndOfLine _
-		  + EndOfLine + EndOfLine
+		  + "• Log Level: " + MinimumLogLevel.ToString + EndOfLine
+		  If AdditionalServerDisplayInfo <> Nil Then
+		    Dim keys() As Variant = AdditionalServerDisplayInfo.Keys
+		    For i As Integer = 0 To keys.LastRowIndex
+		      info = info + "• " + keys( i ).StringValue + ": " + AdditionalServerDisplayInfo.Value( keys( i ) ).StringValue + EndOfLine
+		    Next
+		  End If
 		  
-		  System.DebugLog Info + EndOfLine + EndOfLine
+		  info = info + EndOfLine + EndOfLine
+		  
+		  System.Log( System.LogLevelNotice, Info + EndOfLine + EndOfLine )
 		End Sub
 	#tag EndMethod
 
@@ -206,6 +227,10 @@ Inherits ServerSocket
 		End Sub
 	#tag EndMethod
 
+
+	#tag Property, Flags = &h0
+		AdditionalServerDisplayInfo As Dictionary
+	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		CacheEngine As AloeExpress.CacheEngine

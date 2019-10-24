@@ -14,6 +14,11 @@ Inherits ConsoleApplication
 		  // This is used by the DemoCaching demo module.
 		  Server.CachingEnabled = True
 		  
+		  //Pass any additional information to be displayed with Server.ServerInfoDisplay
+		  //Dim info As New Dictionary
+		  //info.Value( "My App Version" ) = App.MajorVersion.ToString + "." + App.MinorVersion.ToString + "." + App.BugVersion.ToString
+		  //Server.AdditionalServerDisplayInfo = info
+		  
 		  // Start the server.
 		  Server.Start
 		  

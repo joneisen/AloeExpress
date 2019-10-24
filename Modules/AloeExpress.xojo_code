@@ -178,21 +178,44 @@ Protected Module AloeExpress
 		  // Logs an event.
 		  // See LogLevel enumeration for log levels.
 		  
-		  
-		  Select Case CType( Level, Integer )
-		  Case CType( AloeExpress.LogLevel.None, Integer )
+		  Dim sysLevel As Integer
+		  Select Case MinimumLogLevel
+		  Case AloeExpress.LogLevel.None
 		    Return
-		  Case CType( AloeExpress.LogLevel.Critical, Integer )
-		    Message = "CRITICAL: " + Message
-		  Case CType( AloeExpress.LogLevel.Error, Integer )
-		    Message = "ERROR: " + Message
-		  Case CType( AloeExpress.LogLevel.Debug, Integer )
-		    Message = "DEBUG: " + Message
-		  Case CType( AloeExpress.LogLevel.Warning, Integer )
-		    Message = "WARNING: " + Message
+		  Case AloeExpress.LogLevel.Always
+		    //So we don't waste time evaluating against other values
+		    sysLevel = System.LogLevelNotice
+		  Else
+		    If level > MinimumLogLevel Then
+		      Return
+		    End If
+		    Select Case Level
+		    Case AloeExpress.LogLevel.Critical
+		      Message = "CRITICAL: " + Message
+		      sysLevel = System.LogLevelCritical
+		    Case AloeExpress.LogLevel.Error
+		      Message = "ERROR: " + Message
+		      sysLevel = System.LogLevelError
+		    Case AloeExpress.LogLevel.Debug
+		      Message = "DEBUG: " + Message
+		      #If TargetMacOS Then
+		        sysLevel = System.LogLevelNotice
+		      #Else
+		        sysLevel = System.LogLevelDebug
+		      #EndIf
+		    Case AloeExpress.LogLevel.Warning
+		      Message = "WARNING: " + Message
+		    Case AloeExpress.LogLevel.Info
+		      Message = "INFO: " + Message
+		      #If TargetMacOS Then
+		        sysLevel = System.LogLevelNotice
+		      #Else
+		        sysLevel = System.LogLevelInformation
+		      #EndIf
+		    End Select
 		  End Select
 		  
-		  System.DebugLog Message
+		  System.Log( sysLevel, Message )
 		  #If DebugBuild Then
 		    stdout.WriteLine Message
 		  #EndIf
@@ -951,6 +974,27 @@ Protected Module AloeExpress
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Sub StringValue(extends  byref level as LogLevel, assigns value as string)
+		  Select Case value.Lowercase
+		  Case "none"
+		    level = LogLevel.None
+		  Case "always"
+		    level = LogLevel.Always
+		  Case "critical"
+		    level = LogLevel.Critical
+		  Case "error"
+		    level = LogLevel.Error
+		  Case "warning"
+		    level = LogLevel.Warning
+		  Case "info"
+		    level = LogLevel.Info
+		  Case "debug"
+		    level = LogLevel.Debug
+		  End Select
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Function TextToString(T As Text) As String
 		  Dim CS As CString = T.ToCString(Xojo.Core.TextEncoding.UTF8)
@@ -958,6 +1002,27 @@ Protected Module AloeExpress
 		  Dim StringValue As String = CS
 		  
 		  Return StringValue
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function ToString(extends level as LogLevel) As String
+		  Select Case level
+		  Case LogLevel.None
+		    Return "None"
+		  Case LogLevel.Always
+		    Return "Always"
+		  Case LogLevel.Critical
+		    Return "Critical"
+		  Case LogLevel.Error
+		    Return "Error"
+		  Case LogLevel.Warning
+		    Return"Warning"
+		  Case LogLevel.Info
+		    Return "Info"
+		  Case LogLevel.Debug
+		    Return "Debug"
+		  End Select
 		End Function
 	#tag EndMethod
 
@@ -1033,7 +1098,7 @@ Protected Module AloeExpress
 
 	#tag Method, Flags = &h0
 		Function VersionString() As String
-		  Return "4.2.1"
+		  Return "4.2.2"
 		End Function
 	#tag EndMethod
 
@@ -1414,6 +1479,29 @@ Protected Module AloeExpress
 		
 	#tag EndNote
 
+	#tag Note, Name = 4.2.1
+		-----------------------------------------------------------------------------------------
+		4.2.1
+		-----------------------------------------------------------------------------------------
+		
+		Fixes an IOException when writing to the log using Logger
+	#tag EndNote
+
+	#tag Note, Name = 4.2.2
+		-----------------------------------------------------------------------------------------
+		4.2.2
+		-----------------------------------------------------------------------------------------
+		
+		Added property AloeExpress.MinimumLogLevel as AloeExpress.LogLevel to control
+		what Aloe outputs to the log in your application.
+		
+		Added AloeExpress.Server.AdditionalServerDisplayInfo as Dictionary to allow for the
+		passing of additional string values to be printed during Server.ServerInfoDisplay
+		
+		Changed AloeExpress.Logger.SetUpLogsFolder to protected so it can be called from
+		a subclass of AloeExpress.Logger
+	#tag EndNote
+
 	#tag Note, Name = About
 		-----------------------------------------------------------------------------------------
 		About
@@ -1501,6 +1589,11 @@ Protected Module AloeExpress
 		
 		
 	#tag EndNote
+
+
+	#tag Property, Flags = &h0
+		MinimumLogLevel As LogLevel = LogLevel.Error
+	#tag EndProperty
 
 
 	#tag Enum, Name = LogLevel, Type = Integer, Flags = &h0
