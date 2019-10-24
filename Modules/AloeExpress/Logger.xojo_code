@@ -101,8 +101,8 @@ Inherits Thread
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub SetUpLogsFolder()
+	#tag Method, Flags = &h1
+		Protected Sub SetUpLogsFolder()
 		  // Set up logs folder
 		  If Not Folder.Exists Then
 		    Folder.CreateAsFolder
