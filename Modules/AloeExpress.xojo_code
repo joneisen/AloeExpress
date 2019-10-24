@@ -1479,6 +1479,29 @@ Protected Module AloeExpress
 		
 	#tag EndNote
 
+	#tag Note, Name = 4.2.1
+		-----------------------------------------------------------------------------------------
+		4.2.1
+		-----------------------------------------------------------------------------------------
+		
+		Fixes an IOException when writing to the log using Logger
+	#tag EndNote
+
+	#tag Note, Name = 4.2.2
+		-----------------------------------------------------------------------------------------
+		4.2.2
+		-----------------------------------------------------------------------------------------
+		
+		Added property AloeExpress.MinimumLogLevel as AloeExpress.LogLevel to control
+		what Aloe outputs to the log in your application.
+		
+		Added AloeExpress.Server.AdditionalServerDisplayInfo as Dictionary to allow for the
+		passing of additional string values to be printed during Server.ServerInfoDisplay
+		
+		Changed AloeExpress.Logger.SetUpLogsFolder to protected so it can be called from
+		a subclass of AloeExpress.Logger
+	#tag EndNote
+
 	#tag Note, Name = About
 		-----------------------------------------------------------------------------------------
 		About
