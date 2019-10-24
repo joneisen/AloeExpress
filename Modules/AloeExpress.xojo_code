@@ -951,6 +951,27 @@ Protected Module AloeExpress
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Sub StringValue(extends  byref level as LogLevel, assigns value as string)
+		  Select Case value.Lowercase
+		  Case "none"
+		    level = LogLevel.None
+		  Case "always"
+		    level = LogLevel.Always
+		  Case "critical"
+		    level = LogLevel.Critical
+		  Case "error"
+		    level = LogLevel.Error
+		  Case "warning"
+		    level = LogLevel.Warning
+		  Case "info"
+		    level = LogLevel.Info
+		  Case "debug"
+		    level = LogLevel.Debug
+		  End Select
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Function TextToString(T As Text) As String
 		  Dim CS As CString = T.ToCString(Xojo.Core.TextEncoding.UTF8)
@@ -1501,6 +1522,11 @@ Protected Module AloeExpress
 		
 		
 	#tag EndNote
+
+
+	#tag Property, Flags = &h0
+		MinimumLogLevel As LogLevel = LogLevel.Error
+	#tag EndProperty
 
 
 	#tag Enum, Name = LogLevel, Type = Integer, Flags = &h0

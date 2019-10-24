@@ -98,6 +98,10 @@ Inherits ServerSocket
 		      KeepAlive = False
 		    End If
 		    
+		    If Arguments.HasKey("--VerboseLogging") Then
+		      MinimumLogLevel.StringValue = Arguments.Value("--VerboseLogging" )
+		    End If
+		    
 		  End If
 		  
 		  // Initlialize the Custom dictionary.
