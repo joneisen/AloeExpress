@@ -178,21 +178,44 @@ Protected Module AloeExpress
 		  // Logs an event.
 		  // See LogLevel enumeration for log levels.
 		  
-		  
-		  Select Case CType( Level, Integer )
-		  Case CType( AloeExpress.LogLevel.None, Integer )
+		  Dim sysLevel As Integer
+		  Select Case MinimumLogLevel
+		  Case AloeExpress.LogLevel.None
 		    Return
-		  Case CType( AloeExpress.LogLevel.Critical, Integer )
-		    Message = "CRITICAL: " + Message
-		  Case CType( AloeExpress.LogLevel.Error, Integer )
-		    Message = "ERROR: " + Message
-		  Case CType( AloeExpress.LogLevel.Debug, Integer )
-		    Message = "DEBUG: " + Message
-		  Case CType( AloeExpress.LogLevel.Warning, Integer )
-		    Message = "WARNING: " + Message
+		  Case AloeExpress.LogLevel.Always
+		    //So we don't waste time evaluating against other values
+		    sysLevel = System.LogLevelNotice
+		  Else
+		    If level > MinimumLogLevel Then
+		      Return
+		    End If
+		    Select Case Level
+		    Case AloeExpress.LogLevel.Critical
+		      Message = "CRITICAL: " + Message
+		      sysLevel = System.LogLevelCritical
+		    Case AloeExpress.LogLevel.Error
+		      Message = "ERROR: " + Message
+		      sysLevel = System.LogLevelError
+		    Case AloeExpress.LogLevel.Debug
+		      Message = "DEBUG: " + Message
+		      #If TargetMacOS Then
+		        sysLevel = System.LogLevelNotice
+		      #Else
+		        sysLevel = System.LogLevelDebug
+		      #EndIf
+		    Case AloeExpress.LogLevel.Warning
+		      Message = "WARNING: " + Message
+		    Case AloeExpress.LogLevel.Info
+		      Message = "INFO: " + Message
+		      #If TargetMacOS Then
+		        sysLevel = System.LogLevelNotice
+		      #Else
+		        sysLevel = System.LogLevelInformation
+		      #EndIf
+		    End Select
 		  End Select
 		  
-		  System.DebugLog Message
+		  System.Log( sysLevel, Message )
 		  #If DebugBuild Then
 		    stdout.WriteLine Message
 		  #EndIf
@@ -979,6 +1002,27 @@ Protected Module AloeExpress
 		  Dim StringValue As String = CS
 		  
 		  Return StringValue
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function ToString(extends level as LogLevel) As String
+		  Select Case level
+		  Case LogLevel.None
+		    Return "None"
+		  Case LogLevel.Always
+		    Return "Always"
+		  Case LogLevel.Critical
+		    Return "Critical"
+		  Case LogLevel.Error
+		    Return "Error"
+		  Case LogLevel.Warning
+		    Return"Warning"
+		  Case LogLevel.Info
+		    Return "Info"
+		  Case LogLevel.Debug
+		    Return "Debug"
+		  End Select
 		End Function
 	#tag EndMethod
 

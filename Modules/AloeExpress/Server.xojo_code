@@ -136,9 +136,10 @@ Inherits ServerSocket
 		  + If(Secure , "• SSL Certificate Path: " + CertificateFile.NativePath + EndOfLine, "") _
 		  + If(Secure , "• SSL Connection Type: " + ConnectionType.ToString  + EndOfLine, "") _
 		  + "• WebSocket Timeout: " + WSTimeout.ToText + " seconds" + EndOfLine _
+		  + "• Log Level: " + MinimumLogLevel.ToString + EndOfLine _
 		  + EndOfLine + EndOfLine
 		  
-		  System.DebugLog Info + EndOfLine + EndOfLine
+		  System.Log( System.LogLevelNotice, Info + EndOfLine + EndOfLine )
 		End Sub
 	#tag EndMethod
 
