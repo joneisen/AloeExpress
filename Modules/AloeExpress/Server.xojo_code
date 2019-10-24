@@ -98,8 +98,17 @@ Inherits ServerSocket
 		      KeepAlive = False
 		    End If
 		    
+		    //Check for VerboseLogging argument
 		    If Arguments.HasKey("--VerboseLogging") Then
-		      MinimumLogLevel.StringValue = Arguments.Value("--VerboseLogging" )
+		      Dim level As String = Arguments.Value("--VerboseLogging")
+		      //If a value has been passed, assign it otherwise we have a default value for the parameter of Debug
+		      //You can call "--VerboseLogging" and get LogLevel.Debug or pass a parameter such as critical to the argument "--VerboseLogging=Critical"
+		      If level <> "" Then
+		        MinimumLogLevel.StringValue = level
+		      Else
+		        MinimumLogLevel = LogLevel.Debug
+		      End If
+		      
 		    End If
 		    
 		  End If
