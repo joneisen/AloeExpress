@@ -2,14 +2,7 @@
 Protected Class Server
 Inherits ServerSocket
 	#tag Event
-		Sub Error(ErrorCode As Integer, err As RuntimeException)
-		  #Pragma Unused err
-		  System.DebugLog "Aloe Express Server Error: Code: " + ErrorCode.ToText
-		End Sub
-	#tag EndEvent
-
-	#tag Event
-		Function SocketRequested() As TCPSocket
+		Function AddSocket() As TCPSocket
 		  // Tries to add a socket to the pool.
 		  Try
 		    
@@ -34,9 +27,14 @@ Inherits ServerSocket
 		    System.DebugLog "Aloe Express Server Error: Unable to Add Socket w/ID " + CurrentSocketID.ToText
 		    
 		  End Try
-		  
-		  
 		End Function
+	#tag EndEvent
+
+	#tag Event
+		Sub Error(ErrorCode As Integer, err As RuntimeException)
+		  #Pragma Unused err
+		  System.DebugLog "Aloe Express Server Error: Code: " + ErrorCode.ToText
+		End Sub
 	#tag EndEvent
 
 
