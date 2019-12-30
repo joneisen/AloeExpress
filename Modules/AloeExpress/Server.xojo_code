@@ -200,7 +200,7 @@ Inherits ServerSocket
 		  
 		  // Rock on.
 		  While True
-		    app.DoEvents
+		    app.DoEvents( -1 )
 		  Wend
 		End Sub
 	#tag EndMethod
@@ -414,7 +414,7 @@ Inherits ServerSocket
 			Type="SSLSocket.SSLConnectionTypes"
 			EditorType="Enum"
 			#tag EnumValues
-				"2 - SSLv23"
+				"1 - SSLv23"
 				"3 - TLSv1"
 				"4 - TLSv11"
 				"5 - TLSv12"

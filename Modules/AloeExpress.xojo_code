@@ -1648,6 +1648,14 @@ Protected Module AloeExpress
 			Type="Integer"
 			EditorType=""
 		#tag EndViewProperty
+		#tag ViewProperty
+			Name="MinimumLogLevel"
+			Visible=false
+			Group="Behavior"
+			InitialValue="LogLevel.Error"
+			Type="LogLevel"
+			EditorType=""
+		#tag EndViewProperty
 	#tag EndViewBehavior
 End Module
 #tag EndModule

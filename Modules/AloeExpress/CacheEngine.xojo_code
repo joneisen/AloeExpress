@@ -2,9 +2,10 @@
 Protected Class CacheEngine
 Inherits Timer
 	#tag Event
-		Sub Run()
+		Sub Action()
 		  // Removes expired entries from the cache.
 		  Sweep
+		  
 		  
 		End Sub
 	#tag EndEvent
