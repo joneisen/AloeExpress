@@ -2,14 +2,7 @@
 Protected Class Server
 Inherits ServerSocket
 	#tag Event
-		Sub Error(ErrorCode As Integer, err As RuntimeException)
-		  #Pragma Unused err
-		  System.DebugLog "Aloe Express Server Error: Code: " + ErrorCode.ToText
-		End Sub
-	#tag EndEvent
-
-	#tag Event
-		Function SocketRequested() As TCPSocket
+		Function AddSocket() As TCPSocket
 		  // Tries to add a socket to the pool.
 		  Try
 		    
@@ -34,9 +27,14 @@ Inherits ServerSocket
 		    System.DebugLog "Aloe Express Server Error: Unable to Add Socket w/ID " + CurrentSocketID.ToText
 		    
 		  End Try
-		  
-		  
 		End Function
+	#tag EndEvent
+
+	#tag Event
+		Sub Error(ErrorCode As Integer, err As RuntimeException)
+		  #Pragma Unused err
+		  System.DebugLog "Aloe Express Server Error: Code: " + ErrorCode.ToText
+		End Sub
 	#tag EndEvent
 
 
@@ -200,7 +198,7 @@ Inherits ServerSocket
 		  
 		  // Rock on.
 		  While True
-		    app.DoEvents
+		    app.DoEvents( -1 )
 		  Wend
 		End Sub
 	#tag EndMethod
@@ -414,7 +412,7 @@ Inherits ServerSocket
 			Type="SSLSocket.SSLConnectionTypes"
 			EditorType="Enum"
 			#tag EnumValues
-				"2 - SSLv23"
+				"1 - SSLv23"
 				"3 - TLSv1"
 				"4 - TLSv11"
 				"5 - TLSv12"

@@ -1502,6 +1502,18 @@ Protected Module AloeExpress
 		a subclass of AloeExpress.Logger
 	#tag EndNote
 
+	#tag Note, Name = 4.2.3
+		-----------------------------------------------------------------------------------------
+		4.2.3
+		-----------------------------------------------------------------------------------------
+		
+		Revert events back following Xojo 2019 R3
+		--- This includes addressing a bug where Xojo silently failed to update an event which lead to a NilObjectException
+		--- Thank you Github User @jensulrich
+		
+		Changed Request.Error to use the err event parameter rather than the LastErrorCode property
+	#tag EndNote
+
 	#tag Note, Name = About
 		-----------------------------------------------------------------------------------------
 		About
@@ -1647,6 +1659,23 @@ Protected Module AloeExpress
 			InitialValue="0"
 			Type="Integer"
 			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="MinimumLogLevel"
+			Visible=false
+			Group="Behavior"
+			InitialValue="LogLevel.Error"
+			Type="LogLevel"
+			EditorType="Enum"
+			#tag EnumValues
+				"0 - None"
+				"1 - Always"
+				"2 - Critical"
+				"3 - Error"
+				"4 - Warning"
+				"5 - Info"
+				"6 - Debug"
+			#tag EndEnumValues
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Module
