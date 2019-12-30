@@ -1654,7 +1654,16 @@ Protected Module AloeExpress
 			Group="Behavior"
 			InitialValue="LogLevel.Error"
 			Type="LogLevel"
-			EditorType=""
+			EditorType="Enum"
+			#tag EnumValues
+				"0 - None"
+				"1 - Always"
+				"2 - Critical"
+				"3 - Error"
+				"4 - Warning"
+				"5 - Info"
+				"6 - Debug"
+			#tag EndEnumValues
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Module

@@ -1,7 +1,7 @@
 Type=Console
 RBProjectVersion=2019.03
 MinIDEVersion=20070100
-OrigIDEVersion=20190200
+OrigIDEVersion=20190300
 Class=App;App.xojo_code;&h00000000771BB7FF;&h0000000000000000;false
 Folder=Demos;Demos;&h000000002B9BD7FF;&h0000000000000000;false
 Folder=Modules;Modules;&h000000005B71A7FF;&h0000000000000000;false
