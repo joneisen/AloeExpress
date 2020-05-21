@@ -1514,6 +1514,15 @@ Protected Module AloeExpress
 		Changed Request.Error to use the err event parameter rather than the LastErrorCode property
 	#tag EndNote
 
+	#tag Note, Name = 4.2.4
+		-----------------------------------------------------------------------------------------
+		4.2.4
+		-----------------------------------------------------------------------------------------
+		
+		Moved the DataGet and BodyGet methods on AloeExpress.Request to the DataAvailable event to be able to handle a behavior that sometimes comes up when the calling program is using URLConnection.
+		--Github Issue #9
+	#tag EndNote
+
 	#tag Note, Name = About
 		-----------------------------------------------------------------------------------------
 		About
