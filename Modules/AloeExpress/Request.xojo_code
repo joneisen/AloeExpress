@@ -71,6 +71,20 @@ Inherits SSLSocket
 		    Return
 		  End If
 		  
+		  // Get the request data.
+		  DataGet
+		  
+		  // Get the body from the data.
+		  BodyGet
+		  
+		  // If the body is not the expected length we have a problem
+		  If body.Bytes <> ContentLength Then
+		    Response.Status = "400 Bad Request"
+		    Response.Content = "Error 400: Bad Request. The length of the request's content differs from the content-length header."
+		    ResponseReturn
+		    Return
+		  End If
+		  
 		  // If we haven't received all of the content...
 		  If ContentReceivedLength <  ContentLength Then
 		    // Continue receiving data...
@@ -149,8 +163,17 @@ Inherits SSLSocket
 		    Return
 		  End If
 		  
+		  // If request parts contains two rows
+		  // Normally this would be the header and the body split
 		  // Remove the header part.
-		  RequestParts.RemoveRowAt(0)
+		  If RequestParts.LastRowIndex = 1 Then
+		    RequestParts.RemoveRowAt(0)
+		  End If
+		  
+		  // If what should be the body is not = content-length, don't set the body value
+		  If RequestParts( 0 ).Bytes <> ContentLength Then
+		    Return
+		  End If
 		  
 		  // Merge the remaining parts to form the entire request body.
 		  Body = Join(RequestParts, EndOfLine.Windows + EndOfLine.Windows)
@@ -275,7 +298,6 @@ Inherits SSLSocket
 	#tag Method, Flags = &h21
 		Private Sub DataGet()
 		  // Gets the request data.
-		  
 		  Data = Data.DefineEncoding(Encodings.UTF8)
 		  Data = ReadAll
 		  
@@ -851,13 +873,6 @@ Inherits SSLSocket
 		  // This method will be called:
 		  // By a RequestThread's Run event handler, if multithreading is enabled.
 		  // By the DataAvailable event handler, if multithreading is disabled.
-		  
-		  
-		  // Get the request data.
-		  DataGet
-		  
-		  // Get the body from the data.
-		  BodyGet
 		  
 		  // Create the POST and Files dictionaries.
 		  BodyProcess
