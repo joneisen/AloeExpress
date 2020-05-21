@@ -34,7 +34,7 @@ Inherits ConsoleApplication
 		  'Break
 		  
 		  // Hello, world demo.
-		  DemoHelloWorld.RequestProcess(Request)
+		  'DemoHelloWorld.RequestProcess(Request)
 		  // Or simply...
 		  'Request.Response.Content = "Hello, world!"
 		  
@@ -54,7 +54,7 @@ Inherits ConsoleApplication
 		  'DemoTemplatesClientSide.RequestProcess(Request)
 		  
 		  // Demonstrates the use of server-side templates.
-		  'DemoTemplatesServerSide.RequestProcess(Request)
+		  DemoTemplatesServerSide.RequestProcess(Request)
 		  
 		  // A simple chat app that demonstrates WebSocket support.
 		  'DemoWebSockets.RequestProcess(Request)

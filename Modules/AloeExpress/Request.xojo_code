@@ -77,16 +77,12 @@ Inherits SSLSocket
 		  // Get the body from the data.
 		  BodyGet
 		  
-		  // If body is the expected length
-		  
+		  // If the body is not the expected length we have a problem
 		  If body.Bytes <> ContentLength Then
-		    If body.Bytes > 0 Then
-		      Response.Status = "400 Bad Request"
-		      Response.Content = "Error 400: Bad Request. The length of the request's content differs from the content-length header."
-		      ResponseReturn
-		    Else
-		      return
-		    End If
+		    Response.Status = "400 Bad Request"
+		    Response.Content = "Error 400: Bad Request. The length of the request's content differs from the content-length header."
+		    ResponseReturn
+		    Return
 		  End If
 		  
 		  // If we haven't received all of the content...
@@ -167,11 +163,14 @@ Inherits SSLSocket
 		    Return
 		  End If
 		  
+		  // If request parts contains two rows
+		  // Normally this would be the header and the body split
 		  // Remove the header part.
 		  If RequestParts.LastRowIndex = 1 Then
 		    RequestParts.RemoveRowAt(0)
 		  End If
 		  
+		  // If what should be the body is not = content-length, don't set the body value
 		  If RequestParts( 0 ).Bytes <> ContentLength Then
 		    Return
 		  End If
