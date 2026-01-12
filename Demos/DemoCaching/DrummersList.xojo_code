@@ -130,24 +130,44 @@ Protected Class DrummersList
 		  TemplateData.Value("cached") = BooleanToString(CacheUsed)
 		  TemplateData.Value("cacheExpiration") = CacheExpiration.ToString( Nil, DateTime.FormatStyles.None, DateTime.FormatStyles.Short )
 		  TemplateData.Value("drummers") = Drummers
-		  
-		  // Create a Template instance.  
+
+		  // Create a Template instance.
 		  Dim Template As New Templates.MustacheLite
-		  
+
 		  // Load the template file and use it as the source.
 		  Template.Source = AloeExpress.FileRead(Request.StaticPath.Child("template-index.html"))
-		  
+
 		  // Set the merge data source.
 		  Template.Data = TemplateData
-		  
+
 		  // Pass the Request to the Template so that request-related system tokens can be handled.
 		  Template.Request = Request
-		  
+
 		  // Merge the template with the data.
 		  Template.Merge
-		  
+
 		  // Update the response content with the expanded template.
 		  Request.Response.Content = Template.Expanded
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Destructor()
+		  // Clean up resources when the object is destroyed.
+		  // This prevents memory leaks from unclosed database connections.
+
+		  // Close the database connection if it's open.
+		  If Database <> Nil And DatabaseConnected Then
+		    Database.Close
+		  End If
+
+		  // Nil out all object references to aid garbage collection.
+		  Database = Nil
+		  DatabaseFile = Nil
+		  Drummers = Nil
+		  Records = Nil
+		  Request = Nil
+
 		End Sub
 	#tag EndMethod
 

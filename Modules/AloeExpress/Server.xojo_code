@@ -160,46 +160,98 @@ Inherits ServerSocket
 	#tag Method, Flags = &h0
 		Sub Start()
 		  // Starts the server so that it listens for incoming requests.
-		  
-		  
+
+
 		  // If the server should use the loopback network interface.
 		  If Loopback Then
 		    NetworkInterface = NetworkInterface.Loopback
 		  End If
-		  
-		  // Create a ConnectionSweeper timer object for this server.
-		  Dim Sweeper As New ConnectionSweeper(Self)
-		  #Pragma Unused Sweeper
-		  
+
+		  // Create a ConnectionSweeper timer object for this server and store it as a property
+		  // so it can be properly managed and stopped when needed.
+		  ConnectionSweeperTimer = New ConnectionSweeper(Self)
+
 		  // If caching is enabled...
 		  If CachingEnabled Then
 		    CacheEngine = New AloeExpress.CacheEngine(CacheSweepIntervalSecs)
 		  End If
-		  
+
 		  // If session management is enabled...
 		  If SessionsEnabled Then
 		    SessionEngine = New AloeExpress.SessionEngine(SessionsSweepIntervalSecs)
 		  End If
-		  
+
 		  // Start listening for incoming requests.
 		  Listen
-		  
+
 		  // If the server is running as part of a desktop app...
 		  #If TargetDesktop Then
 		    // We're done.
 		    Return
 		  #Endif
-		  
+
 		  // If the server isn't starting silently...
 		  If SilentStart = False Then
 		    // Display server info.
 		    ServerInfoDisplay
 		  End If
-		  
+
 		  // Rock on.
 		  While True
 		    app.DoEvents( -1 )
 		  Wend
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Stop()
+		  // Stops the server and cleans up all resources.
+
+		  // Stop all timers to prevent memory leaks.
+		  If ConnectionSweeperTimer <> Nil Then
+		    ConnectionSweeperTimer.Period = 0
+		    ConnectionSweeperTimer = Nil
+		  End If
+
+		  If CacheEngine <> Nil Then
+		    CacheEngine.Period = 0
+		    CacheEngine = Nil
+		  End If
+
+		  If SessionEngine <> Nil Then
+		    SessionEngine.Period = 0
+		    SessionEngine = Nil
+		  End If
+
+		  // Close the server socket.
+		  Close
+
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Destructor()
+		  // Clean up resources when the server is destroyed.
+
+		  // Ensure all timers are stopped.
+		  If ConnectionSweeperTimer <> Nil Then
+		    ConnectionSweeperTimer.Period = 0
+		  End If
+
+		  If CacheEngine <> Nil Then
+		    CacheEngine.Period = 0
+		  End If
+
+		  If SessionEngine <> Nil Then
+		    SessionEngine.Period = 0
+		  End If
+
+		  // Nil out all references.
+		  ConnectionSweeperTimer = Nil
+		  CacheEngine = Nil
+		  SessionEngine = Nil
+		  Custom = Nil
+
 		End Sub
 	#tag EndMethod
 
@@ -252,6 +304,10 @@ Inherits ServerSocket
 
 	#tag Property, Flags = &h0
 		ConnectionType As SSLSocket.SSLConnectionTypes
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		ConnectionSweeperTimer As AloeExpress.ConnectionSweeper
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
