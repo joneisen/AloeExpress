@@ -44,6 +44,14 @@ Protected Class Home
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub Destructor()
+		  Request = Nil
+		  HTML = ""
+		  BodyContent = ""
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub PageDisplay()
 		  // Load the template.
 		  TemplateLoad

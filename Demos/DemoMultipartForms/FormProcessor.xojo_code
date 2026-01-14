@@ -9,6 +9,16 @@ Protected Class FormProcessor
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub Destructor()
+		  Request = Nil
+		  FieldsInfoJSON = Nil
+		  FilesInfoJSON = Nil
+		  FormData = Nil
+		  UploadFolder = Nil
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub FieldsProcess()
 		  // We'll create a JSONItem for the field info.
 		  FieldsInfoJSON = New JSONItem

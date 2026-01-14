@@ -89,6 +89,7 @@ Protected Class Response
 		  
 		  
 		  Dim HeadersString As String
+		  Dim HeaderParts() As String
 		  
 		  // Loop over the dictionary entries...
 		  For Each Key As Variant in Cookies.Keys
@@ -99,29 +100,37 @@ Protected Class Response
 		    
 		    // Create the cookie sting.
 		    Dim CookieString As String 
+		    Dim CookieParts() As String
+		    CookieParts.Add( URLEncode(Name) + "=" + URLEncode(Settings.Value("Value")) + ";" )
 		    CookieString = CookieString + URLEncode(Name) + "=" + URLEncode(Settings.Value("Value")) + "; "
 		    If Settings.Value("Expiration") <> Nil Then
 		      Dim ExpirationDate As String = AloeExpress.DateToRFC1123(Settings.Value("Expiration"))
-		      CookieString = CookieString + "expires=" + ExpirationDate + "; "
+		      CookieString = "expires=" + ExpirationDate + "; "
+		      CookieParts.Add( CookieString )
 		    End If 
 		    If Settings.Value("Domain") <> Nil Then
-		      CookieString = CookieString + "domain=" + Settings.Value("Domain") + "; "
+		      CookieString = "domain=" + Settings.Value("Domain") + "; "
+		      CookieParts.Add( CookieString )
 		    End If
 		    If Settings.Value("Path") <> Nil Then
-		      CookieString = CookieString + "path=" + Settings.Value("Path") + "; "
+		      CookieString = "path=" + Settings.Value("Path") + "; "
+		      CookieParts.Add( CookieString )
 		    End If
 		    If Settings.Value("Secure") Then
-		      CookieString = CookieString + "secure; "
+		      CookieString = "secure; "
+		      CookieParts.Add( CookieString )
 		    End If
 		    If Settings.Value("HttpOnly") Then
-		      CookieString = CookieString + "HttpOnly;"
+		      CookieString = "HttpOnly;"
+		      CookieParts.Add( CookieString )
 		    End If
 		    
-		    // Add the string representation of the cookie to the headers string.
-		    HeadersString = HeadersString _
-		    + "Set-Cookie: " + CookieString + EndOfLine.Windows
+		    CookieString = String.FromArray(CookieParts, "; ")
+		    HeaderParts.Add("Set-Cookie: " + CookieString)
 		    
 		  Next
+		  
+		  HeadersString = String.FromArray(HeaderParts, EndOfLine.Windows)
 		  
 		  Return HeadersString
 		  
@@ -139,6 +148,14 @@ Protected Class Response
 		  For Each Key As Variant in Headers.Keys
 		    HTML = HTML + "<li>" + Key + "=" + Headers.Value(Key) + "</li>"+ EndOfLine.Windows
 		  Next
+		  
+		  Dim HeaderParts() As String
+		  HeaderParts.Add("HTTP/" + HTTPVersion + " " + Status)
+		  For Each Key As Variant In Headers.Keys
+		    HeaderParts.Add(Key + ": " + Headers.Value(Key))
+		  Next
+		  Dim RH As String = String.FromArray(HeaderParts, EndOfLine.Windows)
+		  
 		  HTML = HTML + "</ul>" + EndOfLine.Windows
 		  HTML = HTML + "</p>" + EndOfLine.Windows
 		  
@@ -199,25 +216,32 @@ Protected Class Response
 		  // Converts the ResponseHeaders from a dictionary to a string
 		  
 		  
-		  // This is the string that will be returned.
-		  Dim RH As String
-		  
-		  // Define the encoding for the response headers.
-		  RH = RH.DefineEncoding(Encodings.UTF8)
-		  
-		  // Add the initial header.
-		  RH = "HTTP/" + HTTPVersion + " " + Status + EndOfLine.Windows
+		  // // This is the string that will be returned.
+		  // Dim RH As String
+		  // 
+		  // // Define the encoding for the response headers.
+		  // RH = RH.DefineEncoding(Encodings.UTF8)
+		  // 
+		  // // Add the initial header.
+		  // RH = "HTTP/" + HTTPVersion + " " + Status + EndOfLine.Windows
 		  
 		  // Specify the content length.
 		  Headers.Value("Content-Length") = Content.Bytes.ToText
 		  
 		  // Loop over the dictionary entries...
-		  For Each Key As Variant in Headers.Keys
-		    
-		    // Add the value.
-		    RH = RH + Key + ": " + Headers.Value(Key) + EndOfLine.Windows
-		    
+		  // For Each Key As Variant in Headers.Keys
+		  // 
+		  // // Add the value.
+		  // RH = RH + Key + ": " + Headers.Value(Key) + EndOfLine.Windows
+		  // 
+		  // Next
+		  
+		  Dim HeaderParts() As String
+		  HeaderParts.Add("HTTP/" + HTTPVersion + " " + Status)
+		  For Each Key As Variant In Headers.Keys
+		    HeaderParts.Add(Key + ": " + Headers.Value(Key))
 		  Next
+		  Dim RH As String = String.FromArray(HeaderParts, EndOfLine.Windows)
 		  
 		  
 		  

@@ -17,6 +17,14 @@ Inherits Thread
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub Destructor()
+		  Folder = Nil
+		  Request = Nil
+		  IPAddress = ""
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub RequestLog()
 		  // Logs all requests, including Date/Time, Method (GET, POST, etc), the resource requested,
 		  // the HTTP response status (200, 404, etc), response size, and user-agent name.
@@ -125,6 +133,53 @@ Inherits Thread
 
 
 	#tag ViewBehavior
+		#tag ViewProperty
+			Name="Left"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Top"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="DebugIdentifier"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ThreadID"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ThreadState"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="ThreadStates"
+			EditorType="Enum"
+			#tag EnumValues
+				"0 - Running"
+				"1 - Waiting"
+				"2 - Paused"
+				"3 - Sleeping"
+				"4 - NotRunning"
+			#tag EndEnumValues
+		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Name"
 			Visible=true

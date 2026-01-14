@@ -1,6 +1,12 @@
 #tag Class
 Protected Class IndexPage
 	#tag Method, Flags = &h0
+		Sub Destructor()
+		    Request = Nil
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Generate()
 		  // Get the orders as a JSON string.
 		  Dim Orders As String = AloeExpress.FileRead(Request.StaticPath.Parent.Parent.Child("data").Child("orders.json"))

@@ -27,6 +27,13 @@ Protected Class Chat
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub Destructor()
+		  Request = Nil
+		  Payload = Nil
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub JoinProcess()
 		  
 		  // Get the username.
