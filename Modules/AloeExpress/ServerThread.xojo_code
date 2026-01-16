@@ -16,6 +16,12 @@ Inherits Thread
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub Destructor()
+		  Server = Nil
+		End Sub
+	#tag EndMethod
+
 
 	#tag Property, Flags = &h0
 		Server As AloeExpress.Server
