@@ -1254,7 +1254,7 @@ Inherits SSLSocket
 		  Dim Evaluator As New XSProcessor
 		  
 		  // Loop over the XojoScript blocks...
-		  For x As Integer = 0 to Scripts.LastRowIndex
+		  For x As Integer = 0 To Scripts.LastRowIndex
 		    
 		    // Get the next XojoScript block.
 		    Evaluator.Source = AloeExpress.BlockGet(Response.Content, "<xojoscript>", "</xojoscript>", 0)
@@ -1266,6 +1266,8 @@ Inherits SSLSocket
 		    Response.Content = AloeExpress.BlockReplace(Response.Content, "<xojoscript>", "</xojoscript>", 0, Evaluator.Result)
 		    
 		  Next
+		  
+		  Evaluator = Nil
 		End Sub
 	#tag EndMethod
 
