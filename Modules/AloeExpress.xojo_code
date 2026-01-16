@@ -1039,7 +1039,7 @@ Protected Module AloeExpress
 		  Case SSLSocket.SSLConnectionTypes.TLSv12
 		    output = "TLS version 1.2"
 		  Else
-		    Raise New Xojo.Core.BadDataException
+		    Raise New InvalidArgumentException("Unknown SSL connection type")
 		  End Select
 		  Return output
 		End Function

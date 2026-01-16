@@ -471,12 +471,17 @@ Inherits SSLSocket
 		  // Get the HTP version from the first HeadersRawArray element.
 		  // Example: POST /?a=123&b=456&c=999 HTTP/1.1
 		  
-		  
 		  // Get the first header.
 		  Dim Header As String = HeadersRawArray(0)
 		  
 		  // Get the HTTP version that was used to make the request.
-		  HTTPVersion = Header.NthField(" ", 3).NthField("/", 2)
+		  Dim headerParts() As String = Header.Split(" ")
+		  If headerParts.Count > 2 Then
+		    Dim versionParts() As String = headerParts(2).Split("/")
+		    HTTPVersion = If(versionParts.Count > 1, versionParts(1), "")
+		  Else
+		    HTTPVersion = ""
+		  End If
 		End Sub
 	#tag EndMethod
 
@@ -570,7 +575,8 @@ Inherits SSLSocket
 		      CurrentEtag = MD5(FI.NativePath)
 		      CurrentEtag = EncodeHex(CurrentEtag)
 		      CurrentEtag = CurrentEtag + "-" + FI.ModificationDate.TotalSeconds.ToText
-		      CurrentEtag = CurrentEtag.NthField(".", 1)
+		      Dim etagParts() As String = CurrentEtag.Split(".")
+		      CurrentEtag = If(etagParts.Count > 0, etagParts(0), "")
 		      
 		      // Get any Etag that the client sent in the request.
 		      Dim ClientEtag As String = Headers.Lookup("If-None-Match", "")
@@ -597,7 +603,8 @@ Inherits SSLSocket
 		    Response.Content = Response.Content.DefineEncoding(Encodings.UTF8)
 		    
 		    // Get the file's extension.
-		    Dim Extension As String = FI.Name.NthField( ".", FI.Name.CountFields( "."))
+		    Dim nameParts() As String = FI.Name.Split(".")
+		    Dim Extension As String = If(nameParts.Count > 0, nameParts(nameParts.LastIndex), "")
 		    
 		    // Map the file extension to a mime type, and use that as the content type.
 		    Response.Headers.Value("Content-Type") = MimeTypeGet(Extension)
@@ -627,7 +634,8 @@ Inherits SSLSocket
 		  Dim Header As String = HeadersRawArray(0)
 		  
 		  // Get the request method.
-		  Method = Header.NthField(" ", 1)
+		  Dim headerParts() As String = Header.Split(" ")
+		  Method = If(headerParts.Count > 0, headerParts(0), "")
 		End Sub
 	#tag EndMethod
 
@@ -766,7 +774,13 @@ Inherits SSLSocket
 		  Dim Header As String = HeadersRawArray(0)
 		  
 		  // Get the request path.
-		  Path = Header.NthField(" ", 2).NthField("?", 1)
+		  Dim headerParts() As String = Header.Split(" ")
+		  If headerParts.Count > 1 Then
+		    Dim pathParts() As String = headerParts(1).Split("?")
+		    Path = If(pathParts.Count > 0, pathParts(0), "")
+		  Else
+		    Path = ""
+		  End If
 		  
 		  
 		End Sub
@@ -900,8 +914,15 @@ Inherits SSLSocket
 		  Dim Header As String = HeadersRawArray(0)
 		  
 		  // Get the protocol that was used to make the request.
-		  Protocol = Header.NthField(" ", 3).NthField("/", 1)
-		  ProtocolVersion = Header.NthField(" ", 3).NthField("/", 2)
+		  Dim headerParts() As String = Header.Split(" ")
+		  If headerParts.Count > 2 Then
+		    Dim protocolParts() As String = headerParts(2).Split("/")
+		    Protocol = If(protocolParts.Count > 0, protocolParts(0), "")
+		    ProtocolVersion = If(protocolParts.Count > 1, protocolParts(1), "")
+		  Else
+		    Protocol = ""
+		    ProtocolVersion = ""
+		  End If
 		End Sub
 	#tag EndMethod
 
@@ -1055,8 +1076,8 @@ Inherits SSLSocket
 		  URLParams = Join(URLParamParts, "?")
 		  
 		  // Split the string based on a space and get the first element.
-		  // Remember that NthField is 1-based.
-		  URLParams = URLParams.NthField(" ", 1)
+		  Dim paramParts() As String = URLParams.Split(" ")
+		  URLParams = If(paramParts.Count > 0, paramParts(0), "")
 		End Sub
 	#tag EndMethod
 
