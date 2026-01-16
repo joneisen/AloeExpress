@@ -9,7 +9,19 @@ Inherits Timer
 		  // Closes any WebSocket connections that have timed out.
 		  WSConnSweep
 		  
-		  
+		  If Server.Sockets.Count > 0 Then
+		    
+		    For i As Integer = Server.Sockets.LastIndex DownTo 0
+		      
+		      Dim Socket As AloeExpress.Request = Server.Sockets(i)
+		      
+		      If Socket = Nil Or Not Socket.IsConnected Then
+		        Server.Sockets.RemoveAt(i)
+		      End If
+		      
+		    Next
+		    
+		  End If
 		End Sub
 	#tag EndEvent
 
