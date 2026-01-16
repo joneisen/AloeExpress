@@ -105,15 +105,16 @@ Protected Class MustacheLite
 		        // Get the content between the beginning and ending tokens.
 		        Dim LoopSource As String = Source.Middle( StartPosition + TokenBegin.Length, StopPosition - StartPosition - TokenBegin.Length)
 		        
-		        // LoopContent is the content created by looping over the array and merging each value.
-		        Dim LoopContent As String
+		        // LoopParts will hold all the expanded content pieces for array-based building.
+		        // This provides O(n) performance instead of O(n²) string concatenation.
+		        Dim LoopParts() As String
 		        
 		        // Loop over the array elements...
-		        For i As Integer = 0 to NestedJSON.Count - 1
+		        For i As Integer = 0 To NestedJSON.Count - 1
 		          
 		          Dim ArrayValue As Variant = NestedJSON.ValueAt(i)
 		          
-		          // Process the value using another instance of Template. 
+		          // Process the value using another instance of Template.
 		          Dim Engine As New MustacheLite
 		          Engine.Source = LoopSource
 		          Engine.Data = ArrayValue
@@ -123,10 +124,16 @@ Protected Class MustacheLite
 		          Engine.RemoveOrphans = False
 		          Engine.Merge
 		          
-		          // Append the expanded content with the loop content.
-		          LoopContent = LoopContent + Engine.Expanded
+		          // Add the expanded content to the array (no string copying).
+		          LoopParts.Add(Engine.Expanded)
+		          
+		          // Clean up the engine instance.
+		          Engine = Nil
 		          
 		        Next
+		        
+		        // Join all parts into final content (single allocation).
+		        Dim LoopContent As String = String.FromArray(LoopParts, "")
 		        
 		        // Substitute the loop content block of the template with the expanded content.
 		        Dim LoopBlock As String = TokenBegin + LoopSource + TokenEnd
