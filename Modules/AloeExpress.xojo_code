@@ -1076,6 +1076,8 @@ Protected Module AloeExpress
 		  // Replace this with whatever UUID generation function that you prefer.
 		  
 		  
+		  
+		  
 		  Dim db As New SQLiteDatabase
 		  
 		  Dim SQL_Instruction As String= "select hex( randomblob(4)) " _
@@ -1084,15 +1086,17 @@ Protected Module AloeExpress
 		  + "|| '-' || substr('AB89', 1 + (abs(random()) % 4) , 1) " _
 		  + "|| substr(hex(randomblob(2)), 2) " _
 		  + "|| '-' || hex(randomblob(6)) AS GUID"
-		  
+		  Dim GUID As String
 		  Try
 		    db.Connect
-		    Dim GUID As String = db.SelectSQL(SQL_Instruction).Column("GUID")
-		    db.Close
-		    Return  GUID
+		    GUID = db.SelectSQL(SQL_Instruction).Column("GUID")
 		  Catch error As DatabaseException
 		    Print( "SQLite Error: " + error.Message )
+		  Finally
+		    db.Close
 		  End Try
+		  
+		  Return  GUID
 		End Function
 	#tag EndMethod
 
