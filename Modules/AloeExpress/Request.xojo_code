@@ -246,6 +246,7 @@ Inherits SSLSocket
 		  CertificatePassword = Server.CertificatePassword
 		  MaxEntitySize = Server.MaxEntitySize
 		  KeepAlive = Server.KeepAlive
+		  URLArgs = New Dictionary
 		  
 		  // Call the overridden superclass constructor.
 		  Super.Constructor
@@ -1078,6 +1079,13 @@ Inherits SSLSocket
 		  // Split the string based on a space and get the first element.
 		  Dim paramParts() As String = URLParams.Split(" ")
 		  URLParams = If(paramParts.Count > 0, paramParts(0), "")
+		  If paramParts.Count <> 0 Then
+		    Dim URLArgParts() As String = URLParams.Split("&")
+		    For i As Integer = 0 To URLArgParts.LastIndex
+		      Dim arg() As String = URLArgParts(i).Split("=")
+		      URLArgs.Value(arg(0)) = arg(1)
+		    Next 
+		  End If
 		End Sub
 	#tag EndMethod
 
@@ -1418,6 +1426,10 @@ Inherits SSLSocket
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
+		URLArgs As Dictionary
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
 		URLParams As String
 	#tag EndProperty
 
@@ -1450,6 +1462,7 @@ Inherits SSLSocket
 				"3 - TLSv1"
 				"4 - TLSv11"
 				"5 - TLSv12"
+				"6 - TLSv13"
 			#tag EndEnumValues
 		#tag EndViewProperty
 		#tag ViewProperty
